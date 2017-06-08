@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">TV Central</string>
     <string name="action_settings">Settings</string>
+
+    <!-- SyncAdapter -->
+    <string name="sync_account_type">za.co.ahmedtikiwa</string>
+    <string name="content_authority">za.co.ahmedtikiwa.apps.tvcentral</string>
 </resources>
