@@ -40,7 +40,7 @@ public class TvCentralContract {
     }
 
     public static final class TvAiringTodayEntry implements BaseColumns {
-        public static final String TABLE_NAME = "tv_popular";
+        public static final String TABLE_NAME = "tv_airing_today";
         public static final String COLUMN_POSTER_PATH = "poster_path";
         public static final String COLUMN_SHOW_ID = "show_id";
         public static final String COLUMN_POPULARITY = "popularity";

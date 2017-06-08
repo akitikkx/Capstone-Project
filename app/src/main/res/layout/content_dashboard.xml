@@ -34,12 +34,12 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/upcoming_week_fragment"
-            android:name="za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment"
+            android:name="za.co.ahmedtikiwa.apps.tvcentral.ui.UpcomingWeekShowsFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:layout="@layout/fragment_airing_today" />
+            tools:layout="@layout/fragment_upcoming_week_shows" />
 
 
     </LinearLayout>
