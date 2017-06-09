@@ -6,6 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
         android:orientation="vertical">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,6 +28,7 @@
             android:name="za.co.ahmedtikiwa.apps.tvcentral.ui.PopularShowsFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/vertical_margin"
             android:layout_weight="1"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:layout="@layout/fragment_popular_shows" />
@@ -37,6 +40,7 @@
             android:name="za.co.ahmedtikiwa.apps.tvcentral.ui.UpcomingWeekShowsFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/vertical_margin"
             android:layout_weight="1"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:layout="@layout/fragment_upcoming_week_shows" />

@@ -2,4 +2,5 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/poster"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/shows_list_poster_height" />
+    android:layout_height="@dimen/shows_list_poster_height"
+    android:layout_marginEnd="@dimen/poster_horizontal_margin" />
