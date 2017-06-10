@@ -5,4 +5,9 @@
     <!-- SyncAdapter -->
     <string name="sync_account_type">za.co.ahmedtikiwa</string>
     <string name="content_authority">za.co.ahmedtikiwa.apps.tvcentral</string>
+
+    <!-- Dashboard -->
+    <string name="airing_today">Airing Today</string>
+    <string name="popular_shows">Popular Shows</string>
+    <string name="upcoming_week">Airing in the next 7 days</string>
 </resources>
