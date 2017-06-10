@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment;
+import za.co.ahmedtikiwa.apps.tvcentral.ui.PopularShowsFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapter.ViewHolder> {
@@ -35,7 +36,7 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
         mCursor.moveToPosition(position);
 
         if (mCursor.getString(AiringTodayFragment.COLUMN_POSTER_PATH) != null) {
-            String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(AiringTodayFragment.COLUMN_POSTER_PATH);
+            String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(PopularShowsFragment.COLUMN_POSTER_PATH);
 
             Glide.with(mContext)
                     .load(posterUrl)

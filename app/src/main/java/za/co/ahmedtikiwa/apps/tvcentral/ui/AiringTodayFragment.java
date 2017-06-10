@@ -28,20 +28,6 @@ public class AiringTodayFragment extends Fragment implements LoaderManager.Loade
     RecyclerView recyclerView;
     @BindView(R.id.airing_today_progress)
     ProgressBar progressBar;
-    public static final String[] SHOW_COLUMNS = {
-            TvCentralContract.TvAiringTodayEntry.TABLE_NAME + "." + TvCentralContract.TvAiringTodayEntry._ID,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_POSTER_PATH,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_SHOW_ID,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_POPULARITY,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_BACKDROP_PATH,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_VOTE_AVERAGE,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_OVERVIEW,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_FIRST_AIR_DATE,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_ORIGINAL_LANGUAGE,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_VOTE_COUNT,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_NAME,
-            TvCentralContract.TvAiringTodayEntry.COLUMN_ORIGINAL_NAME,
-    };
 
     public static final int COLUMN_POSTER_PATH = 1;
 

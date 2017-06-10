@@ -28,20 +28,6 @@ public class UpcomingWeekShowsFragment extends Fragment implements LoaderManager
     RecyclerView recyclerView;
     @BindView(R.id.upcoming_week_progress)
     ProgressBar progressBar;
-    public static final String[] SHOW_COLUMNS = {
-            TvCentralContract.TvUpcomingWeekEntry.TABLE_NAME + "." + TvCentralContract.TvUpcomingWeekEntry._ID,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_POSTER_PATH,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_SHOW_ID,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_POPULARITY,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_BACKDROP_PATH,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_AVERAGE,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_OVERVIEW,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_FIRST_AIR_DATE,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_LANGUAGE,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_COUNT,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_NAME,
-            TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_NAME,
-    };
 
     public static final int COLUMN_POSTER_PATH = 1;
 

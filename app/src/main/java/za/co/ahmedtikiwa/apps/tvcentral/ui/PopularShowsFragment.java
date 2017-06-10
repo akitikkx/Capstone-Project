@@ -28,20 +28,6 @@ public class PopularShowsFragment extends Fragment implements LoaderManager.Load
     RecyclerView recyclerView;
     @BindView(R.id.popular_shows_progress)
     ProgressBar progressBar;
-    public static final String[] SHOW_COLUMNS = {
-            TvCentralContract.TvPopularEntry.TABLE_NAME + "." + TvCentralContract.TvPopularEntry._ID,
-            TvCentralContract.TvPopularEntry.COLUMN_POSTER_PATH,
-            TvCentralContract.TvPopularEntry.COLUMN_SHOW_ID,
-            TvCentralContract.TvPopularEntry.COLUMN_POPULARITY,
-            TvCentralContract.TvPopularEntry.COLUMN_BACKDROP_PATH,
-            TvCentralContract.TvPopularEntry.COLUMN_VOTE_AVERAGE,
-            TvCentralContract.TvPopularEntry.COLUMN_OVERVIEW,
-            TvCentralContract.TvPopularEntry.COLUMN_FIRST_AIR_DATE,
-            TvCentralContract.TvPopularEntry.COLUMN_ORIGINAL_LANGUAGE,
-            TvCentralContract.TvPopularEntry.COLUMN_VOTE_COUNT,
-            TvCentralContract.TvPopularEntry.COLUMN_NAME,
-            TvCentralContract.TvPopularEntry.COLUMN_ORIGINAL_NAME,
-    };
 
     public static final int COLUMN_POSTER_PATH = 1;
 
