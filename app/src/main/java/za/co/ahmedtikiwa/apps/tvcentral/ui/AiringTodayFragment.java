@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,15 +20,14 @@ import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.AiringTodayAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.data.TvCentralContract;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class AiringTodayFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = AiringTodayFragment.class.getSimpleName();
     private AiringTodayAdapter adapter;
     @BindView(R.id.airing_today)
     RecyclerView recyclerView;
+    @BindView(R.id.airing_today_progress)
+    ProgressBar progressBar;
     public static final String[] SHOW_COLUMNS = {
             TvCentralContract.TvAiringTodayEntry.TABLE_NAME + "." + TvCentralContract.TvAiringTodayEntry._ID,
             TvCentralContract.TvAiringTodayEntry.COLUMN_POSTER_PATH,
@@ -73,6 +73,8 @@ public class AiringTodayFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+
         return new CursorLoader(getActivity(),
                 TvCentralContract.TvAiringTodayEntry.CONTENT_URI,
                 null,
@@ -83,6 +85,8 @@ public class AiringTodayFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        progressBar.setVisibility(ProgressBar.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         adapter.swapCursor(data);
     }
 

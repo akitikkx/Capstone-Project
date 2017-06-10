@@ -11,8 +11,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/airing_today" />
+        android:text="@string/airing_today"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <ProgressBar
+        android:id="@+id/airing_today_progress"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/airing_today"
