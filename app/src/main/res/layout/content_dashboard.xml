@@ -45,6 +45,19 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:layout="@layout/fragment_upcoming_week_shows" />
 
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/top_rated_fragment"
+            android:name="za.co.ahmedtikiwa.apps.tvcentral.ui.TopRatedShowsFragment"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:layout="@layout/fragment_top_rated_shows" />
+
 
     </LinearLayout>
 

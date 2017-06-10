@@ -19,6 +19,8 @@ public class TvCentralProvider extends ContentProvider {
     private final int TV_AIRING_TODAY_WITH_ID = 201;
     private final int TV_UPCOMING_WEEK = 300;
     private final int TV_UPCOMING_WEEK_WITH_ID = 301;
+    private final int TV_TOP_RATED = 400;
+    private final int TV_TOP_RATED_WITH_ID = 401;
 
     private UriMatcher buildUriMatcher() {
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -29,6 +31,8 @@ public class TvCentralProvider extends ContentProvider {
         uriMatcher.addURI(TvCentralContract.CONTENT_AUTHORITY, TvCentralContract.PATH_TV_POPULAR + "/#", TV_POPULAR_WITH_ID);
         uriMatcher.addURI(TvCentralContract.CONTENT_AUTHORITY, TvCentralContract.PATH_TV_UPCOMING_WEEK, TV_UPCOMING_WEEK);
         uriMatcher.addURI(TvCentralContract.CONTENT_AUTHORITY, TvCentralContract.PATH_TV_UPCOMING_WEEK + "/#", TV_UPCOMING_WEEK_WITH_ID);
+        uriMatcher.addURI(TvCentralContract.CONTENT_AUTHORITY, TvCentralContract.PATH_TV_TOP_RATED, TV_TOP_RATED);
+        uriMatcher.addURI(TvCentralContract.CONTENT_AUTHORITY, TvCentralContract.PATH_TV_TOP_RATED + "/#", TV_TOP_RATED_WITH_ID);
 
         return uriMatcher;
     }
@@ -110,6 +114,28 @@ public class TvCentralProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+            case TV_TOP_RATED:
+                cursor = mTvCentralDbHelper.getReadableDatabase().query(
+                        TvCentralContract.TvTopRatedEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case TV_TOP_RATED_WITH_ID:
+                cursor = mTvCentralDbHelper.getReadableDatabase().query(
+                        TvCentralContract.TvTopRatedEntry.TABLE_NAME,
+                        projection,
+                        TvCentralContract.TvTopRatedEntry.COLUMN_SHOW_ID + " = ?",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
@@ -134,6 +160,10 @@ public class TvCentralProvider extends ContentProvider {
                 return TvCentralContract.TvPopularEntry.CONTENT_ITEM_TYPE;
             case TV_UPCOMING_WEEK_WITH_ID:
                 return TvCentralContract.TvUpcomingWeekEntry.CONTENT_ITEM_TYPE;
+            case TV_TOP_RATED:
+                return TvCentralContract.TvPopularEntry.CONTENT_ITEM_TYPE;
+            case TV_TOP_RATED_WITH_ID:
+                return TvCentralContract.TvTopRatedEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
@@ -172,6 +202,14 @@ public class TvCentralProvider extends ContentProvider {
                     throw new SQLException("Failed to insert row into: " + uri);
                 }
                 break;
+            case TV_TOP_RATED:
+                _id = database.insert(TvCentralContract.TvTopRatedEntry.TABLE_NAME, null, values);
+                if (_id > 0) {
+                    returnUri = TvCentralContract.TvTopRatedEntry.buildShowUri(_id);
+                } else {
+                    throw new SQLException("Failed to insert row into: " + uri);
+                }
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
@@ -200,6 +238,9 @@ public class TvCentralProvider extends ContentProvider {
             case TV_UPCOMING_WEEK:
                 deletedRows = database.delete(TvCentralContract.TvUpcomingWeekEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case TV_TOP_RATED:
+                deletedRows = database.delete(TvCentralContract.TvTopRatedEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
@@ -227,6 +268,9 @@ public class TvCentralProvider extends ContentProvider {
                 break;
             case TV_UPCOMING_WEEK:
                 updatedRows = database.update(TvCentralContract.TvUpcomingWeekEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case TV_TOP_RATED:
+                updatedRows = database.update(TvCentralContract.TvTopRatedEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
@@ -284,6 +328,22 @@ public class TvCentralProvider extends ContentProvider {
                 try {
                     for (ContentValues value : values) {
                         long _id = database.insert(TvCentralContract.TvUpcomingWeekEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    database.setTransactionSuccessful();
+                } finally {
+                    database.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                database.close();
+                return returnCount;
+            case TV_TOP_RATED:
+                database.beginTransaction();
+                try {
+                    for (ContentValues value : values) {
+                        long _id = database.insert(TvCentralContract.TvTopRatedEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }

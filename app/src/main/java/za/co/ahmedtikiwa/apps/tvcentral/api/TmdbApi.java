@@ -46,6 +46,9 @@ public class TmdbApi {
 
         @GET("tv/on_the_air/")
         Call<ShowsResponse> upcomingWeek(@Query("api_key") String apiKey);
+
+        @GET("tv/top_rated/")
+        Call<ShowsResponse> topRated(@Query("api_key") String apiKey);
     }
 
 }

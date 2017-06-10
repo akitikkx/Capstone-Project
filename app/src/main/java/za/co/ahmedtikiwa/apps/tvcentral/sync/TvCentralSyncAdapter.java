@@ -40,6 +40,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         loadTvAiringTodayData();
         loadTvPopularData();
         loadTvUpcomingWeekData();
+        loadTvTopRatedData();
     }
 
     private void loadTvAiringTodayData() {
@@ -204,6 +205,62 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
                 Log.d(TAG, "Error encountered with background upcoming week show sync: " + t.getMessage());
+
+            }
+        });
+    }
+
+    private void loadTvTopRatedData() {
+        Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().topRated(BuildConfig.TMDB_API_KEY);
+        showsResponseCall.enqueue(new Callback<ShowsResponse>() {
+            @Override
+            public void onResponse(Call<ShowsResponse> call, Response<ShowsResponse> response) {
+                if (response.isSuccessful()) {
+                    ShowsResponse showsResponse = response.body();
+                    ArrayList<Show> shows = showsResponse.getResults();
+
+                    Vector<ContentValues> cVVector = new Vector<ContentValues>(shows.size());
+
+                    for (Show show : shows) {
+                        ContentValues showsValues = new ContentValues();
+
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_NAME, show.getName());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_POSTER_PATH, show.getPosterPath());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_SHOW_ID, show.getId());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_POPULARITY, show.getPopularity());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_OVERVIEW, show.getOverview());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
+                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+
+                        cVVector.add(showsValues);
+                    }
+
+                    if (cVVector.size() > 0) {
+                        ContentValues[] contentValues = new ContentValues[cVVector.size()];
+                        cVVector.toArray(contentValues);
+
+                        // remove all the shows that are currently there to be replaced with the new list
+                        getContext().getContentResolver().delete(TvCentralContract.TvTopRatedEntry.CONTENT_URI, null, null);
+
+                        getContext().getContentResolver().bulkInsert(TvCentralContract.TvTopRatedEntry.CONTENT_URI, contentValues);
+
+                    }
+
+                    Log.d(TAG, "Top rated shows sync service complete. " + cVVector.size() + " inserted.");
+
+                } else {
+                    Log.d(TAG, "Error encountered with background top rated show sync: " + response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ShowsResponse> call, Throwable t) {
+                Log.d(TAG, "Error encountered with background top rated show sync: " + t.getMessage());
 
             }
         });

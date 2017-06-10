@@ -60,9 +60,25 @@ public class TvCentralDbHelper extends SQLiteOpenHelper {
                 TvCentralContract.TvUpcomingWeekEntry.COLUMN_NAME + " TEXT DEFAULT NULL, " +
                 " UNIQUE (" + TvCentralContract.TvUpcomingWeekEntry.COLUMN_SHOW_ID + ") ON CONFLICT REPLACE);";
 
+        final String SQL_CREATE_TV_TOP_RATED_TABLE = "CREATE TABLE IF NOT EXISTS " + TvCentralContract.TvTopRatedEntry.TABLE_NAME + " (" +
+                TvCentralContract.TvUpcomingWeekEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_POSTER_PATH + " TEXT DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_POPULARITY + " REAL DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_SHOW_ID + " INTEGER NOT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_BACKDROP_PATH + " TEXT DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_AVERAGE + " REAL DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_OVERVIEW + " TEXT DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_COUNT + " REAL DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_FIRST_AIR_DATE + " TEXT DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_LANGUAGE + " TEXT DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_NAME + " TEXT DEFAULT NULL, " +
+                TvCentralContract.TvUpcomingWeekEntry.COLUMN_NAME + " TEXT DEFAULT NULL, " +
+                " UNIQUE (" + TvCentralContract.TvUpcomingWeekEntry.COLUMN_SHOW_ID + ") ON CONFLICT REPLACE);";
+
         db.execSQL(SQL_CREATE_TV_POPULAR_TABLE);
         db.execSQL(SQL_CREATE_TV_AIRING_TODAY_TABLE);
         db.execSQL(SQL_CREATE_TV_UPCOMING_WEEK_TABLE);
+        db.execSQL(SQL_CREATE_TV_TOP_RATED_TABLE);
     }
 
     @Override
