@@ -7,11 +7,16 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.util.Log;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -30,6 +35,19 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String ACTION_DATA_UPDATED = "za.co.ahmedtikiwa.apps.tvcentral.ACTION_DATA_UPDATED";
     public static final int SYNC_INTERVAL = 60 * 180; // 3 hours
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({SYNC_STATUS_OK, SYNC_STATUS_SERVER_DOWN, SYNC_STATUS_SERVER_INVALID, SYNC_STATUS_UNKNOWN, SYNC_STATUS_INVALID})
+    public @interface SyncStatus {
+
+    }
+
+    private static final int SYNC_STATUS_OK = 0;
+    private static final int SYNC_STATUS_SERVER_DOWN = 1;
+    private static final int SYNC_STATUS_SERVER_INVALID = 2;
+    private static final int SYNC_STATUS_UNKNOWN = 3;
+    private static final int SYNC_STATUS_INVALID = 4;
 
     public TvCentralSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -308,4 +326,12 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentResolver.requestSync(getSyncAccount(context), context.getString(R.string.content_authority), bundle);
 
     }
+
+    static private void setSyncStatus(Context context, @SyncStatus int syncStatus) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(context.getString(R.string.pref_sync_status_key), syncStatus);
+        editor.commit();
+    }
+
 }
