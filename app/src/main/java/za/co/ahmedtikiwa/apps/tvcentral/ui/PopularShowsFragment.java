@@ -13,12 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import za.co.ahmedtikiwa.apps.tvcentral.App;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.PopularShowsAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.data.TvCentralContract;
+import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
+import za.co.ahmedtikiwa.apps.tvcentral.utils.PrefHelper;
 
 public class PopularShowsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -28,6 +33,8 @@ public class PopularShowsFragment extends Fragment implements LoaderManager.Load
     RecyclerView recyclerView;
     @BindView(R.id.popular_shows_progress)
     ProgressBar progressBar;
+    @BindView(R.id.empty_state)
+    TextView emptyState;
 
     public static final int COLUMN_POSTER_PATH = 1;
 
@@ -74,6 +81,25 @@ public class PopularShowsFragment extends Fragment implements LoaderManager.Load
         progressBar.setVisibility(ProgressBar.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         adapter.swapCursor(data);
+
+        @TvCentralSyncAdapter.SyncStatus int syncStatus = PrefHelper.getSyncStatus(getActivity());
+        if (syncStatus != TvCentralSyncAdapter.SYNC_STATUS_OK) {
+            int emptyStateMsg = R.string.empty_show_list;
+            switch (syncStatus) {
+                case TvCentralSyncAdapter.POPULAR_SYNC_STATUS_SERVER_DOWN:
+                    emptyStateMsg = R.string.empty_show_list_server_down;
+                    break;
+                case TvCentralSyncAdapter.POPULAR_SYNC_STATUS_SERVER_INVALID:
+                    emptyStateMsg = R.string.empty_show_list_server_error;
+                    break;
+                default:
+                    if (!App.hasNetworkConnection()) {
+                        Toast.makeText(getActivity(), R.string.empty_show_list_no_network, Toast.LENGTH_LONG).show();
+                    }
+            }
+            emptyState.setText(emptyStateMsg);
+            emptyState.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

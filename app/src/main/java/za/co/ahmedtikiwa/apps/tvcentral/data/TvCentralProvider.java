@@ -356,7 +356,6 @@ public class TvCentralProvider extends ContentProvider {
                 database.close();
                 return returnCount;
             default:
-                database.close();
                 return super.bulkInsert(uri, values);
         }
 

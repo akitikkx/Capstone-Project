@@ -38,16 +38,45 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({SYNC_STATUS_OK, SYNC_STATUS_SERVER_DOWN, SYNC_STATUS_SERVER_INVALID, SYNC_STATUS_UNKNOWN, SYNC_STATUS_INVALID})
+    @IntDef({
+            SYNC_STATUS_OK,
+            AIRING_TODAY_SYNC_STATUS_SERVER_DOWN,
+            POPULAR_SYNC_STATUS_SERVER_DOWN,
+            UPCOMING_WEEK_SYNC_STATUS_SERVER_DOWN,
+            TOP_RATED_SYNC_STATUS_SERVER_DOWN,
+            AIRING_TODAY_SYNC_STATUS_SERVER_INVALID,
+            POPULAR_SYNC_STATUS_SERVER_INVALID,
+            UPCOMING_WEEK_SYNC_STATUS_SERVER_INVALID,
+            TOP_RATED_SYNC_STATUS_SERVER_INVALID,
+            AIRING_TODAY_SYNC_STATUS_UNKNOWN,
+            POPULAR_SYNC_STATUS_UNKNOWN,
+            UPCOMING_WEEK_SYNC_STATUS_UNKNOWN,
+            TOP_RATED_SYNC_STATUS_UNKNOWN,
+            AIRING_TODAY_SYNC_STATUS_INVALID,
+            POPULAR_SYNC_STATUS_INVALID,
+            UPCOMING_WEEK_SYNC_STATUS_INVALID,
+            TOP_RATED_SYNC_STATUS_INVALID
+    })
     public @interface SyncStatus {
-
     }
 
-    private static final int SYNC_STATUS_OK = 0;
-    private static final int SYNC_STATUS_SERVER_DOWN = 1;
-    private static final int SYNC_STATUS_SERVER_INVALID = 2;
-    private static final int SYNC_STATUS_UNKNOWN = 3;
-    private static final int SYNC_STATUS_INVALID = 4;
+    public static final int SYNC_STATUS_OK = 0;
+    public static final int AIRING_TODAY_SYNC_STATUS_SERVER_DOWN = 1;
+    public static final int POPULAR_SYNC_STATUS_SERVER_DOWN = 2;
+    public static final int UPCOMING_WEEK_SYNC_STATUS_SERVER_DOWN = 3;
+    public static final int TOP_RATED_SYNC_STATUS_SERVER_DOWN = 4;
+    public static final int AIRING_TODAY_SYNC_STATUS_SERVER_INVALID = 5;
+    public static final int POPULAR_SYNC_STATUS_SERVER_INVALID = 6;
+    public static final int UPCOMING_WEEK_SYNC_STATUS_SERVER_INVALID = 7;
+    public static final int TOP_RATED_SYNC_STATUS_SERVER_INVALID = 8;
+    public static final int AIRING_TODAY_SYNC_STATUS_UNKNOWN = 9;
+    public static final int POPULAR_SYNC_STATUS_UNKNOWN = 10;
+    public static final int UPCOMING_WEEK_SYNC_STATUS_UNKNOWN = 11;
+    public static final int TOP_RATED_SYNC_STATUS_UNKNOWN = 12;
+    public static final int AIRING_TODAY_SYNC_STATUS_INVALID = 13;
+    public static final int POPULAR_SYNC_STATUS_INVALID = 14;
+    public static final int UPCOMING_WEEK_SYNC_STATUS_INVALID = 15;
+    public static final int TOP_RATED_SYNC_STATUS_INVALID = 16;
 
     public TvCentralSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -99,11 +128,14 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
                         getContext().getContentResolver().bulkInsert(TvCentralContract.TvAiringTodayEntry.CONTENT_URI, contentValues);
 
+                        setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
+
                     }
 
                     Log.d(TAG, "Shows airing today sync service complete. " + cVVector.size() + " inserted.");
 
                 } else {
+                    setSyncStatus(getContext(), TvCentralSyncAdapter.AIRING_TODAY_SYNC_STATUS_INVALID);
                     Log.d(TAG, "Error encountered with background airing today sync: " + response.message());
                 }
 
@@ -111,6 +143,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
+                setSyncStatus(getContext(), TvCentralSyncAdapter.AIRING_TODAY_SYNC_STATUS_SERVER_DOWN);
                 Log.d(TAG, "Error encountered with background airing today sync: " + t.getMessage());
 
             }
@@ -154,11 +187,14 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                         getContext().getContentResolver().delete(TvCentralContract.TvPopularEntry.CONTENT_URI, null, null);
 
                         getContext().getContentResolver().bulkInsert(TvCentralContract.TvPopularEntry.CONTENT_URI, contentValues);
+
+                        setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
                     }
 
                     Log.d(TAG, "Popular shows sync service complete. " + cVVector.size() + " inserted.");
 
                 } else {
+                    setSyncStatus(getContext(), TvCentralSyncAdapter.POPULAR_SYNC_STATUS_INVALID);
                     Log.d(TAG, "Error encountered with background popular show sync: " + response.message());
                 }
 
@@ -166,6 +202,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
+                setSyncStatus(getContext(), TvCentralSyncAdapter.POPULAR_SYNC_STATUS_SERVER_DOWN);
                 Log.d(TAG, "Error encountered with background popular show sync: " + t.getMessage());
 
             }
@@ -210,12 +247,14 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
                         getContext().getContentResolver().bulkInsert(TvCentralContract.TvUpcomingWeekEntry.CONTENT_URI, contentValues);
 
+                        setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
                     }
 
                     Log.d(TAG, "Upcoming week shows sync service complete. " + cVVector.size() + " inserted.");
 
                 } else {
                     Log.d(TAG, "Error encountered with background upcoming week show sync: " + response.message());
+                    setSyncStatus(getContext(), TvCentralSyncAdapter.UPCOMING_WEEK_SYNC_STATUS_INVALID);
                 }
 
             }
@@ -223,7 +262,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
                 Log.d(TAG, "Error encountered with background upcoming week show sync: " + t.getMessage());
-
+                setSyncStatus(getContext(), TvCentralSyncAdapter.UPCOMING_WEEK_SYNC_STATUS_SERVER_DOWN);
             }
         });
     }
@@ -266,11 +305,13 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
                         getContext().getContentResolver().bulkInsert(TvCentralContract.TvTopRatedEntry.CONTENT_URI, contentValues);
 
+                        setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
                     }
 
                     Log.d(TAG, "Top rated shows sync service complete. " + cVVector.size() + " inserted.");
 
                 } else {
+                    setSyncStatus(getContext(), TvCentralSyncAdapter.TOP_RATED_SYNC_STATUS_INVALID);
                     Log.d(TAG, "Error encountered with background top rated show sync: " + response.message());
                 }
 
@@ -278,6 +319,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
+                setSyncStatus(getContext(), TvCentralSyncAdapter.TOP_RATED_SYNC_STATUS_SERVER_DOWN);
                 Log.d(TAG, "Error encountered with background top rated show sync: " + t.getMessage());
 
             }
