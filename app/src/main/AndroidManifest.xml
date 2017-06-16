@@ -29,6 +29,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.ShowDetailActivity"
+            android:label="@string/title_activity_show_detail"
+            android:parentActivityName=".ui.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <provider
             android:name=".data.TvCentralProvider"
             android:authorities="za.co.ahmedtikiwa.apps.tvcentral"
@@ -59,11 +65,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5a026c73b79107622bb20b86b6a7be8a33c8854c" />
-
-        <activity
-            android:name=".ui.ShowDetailActivity"
-            android:label="@string/title_activity_show_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

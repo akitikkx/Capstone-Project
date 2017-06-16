@@ -35,9 +35,6 @@ public class AiringTodayFragment extends BaseFragment implements LoaderManager.L
     @BindView(R.id.empty_state)
     TextView emptyState;
 
-    public static final int COLUMN_POSTER_PATH = 1;
-    public static final int COLUMN_SHOW_ID = 3;
-
     public AiringTodayFragment() {
     }
 
