@@ -19,4 +19,6 @@
     <string name="empty_show_list_server_down">No show information currently available. The server could not be reached. Please try again later.</string>
     <string name="empty_show_list_server_error">No show information currently available. The server is not returning valid data.</string>
     <string name="title_activity_show_detail">ShowDetailActivity</string>
+    <string name="show_backdrop_image">Show Backdrop Image</string>
+    <string name="show_title">Show Title</string>
 </resources>
