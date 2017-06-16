@@ -37,7 +37,8 @@
                     android:id="@+id/show_poster"
                     android:layout_width="@dimen/detail_poster_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="@dimen/horizontal_double_margin"
+                    android:contentDescription="@string/show_poster"
                     android:minHeight="@dimen/detail_poster_height" />
 
             </FrameLayout>
@@ -53,32 +54,32 @@
                     android:id="@+id/show_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_margin"
+                    android:layout_marginTop="@dimen/vertical_half_margin"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     tools:text="@string/show_title" />
 
                 <TextView
                     android:id="@+id/show_status"
+                    style="@style/ShowDetail.ItemHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_margin"
-                    style="@style/ShowDetail.ItemHeading"
+                    android:layout_marginTop="@dimen/vertical_half_margin"
                     tools:text="@string/show_status" />
 
                 <TextView
                     android:id="@+id/show_network"
+                    style="@style/ShowDetail.ItemHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_margin"
-                    style="@style/ShowDetail.ItemHeading"
+                    android:layout_marginTop="@dimen/vertical_half_margin"
                     tools:text="@string/show_network" />
 
                 <TextView
                     android:id="@+id/show_seasons_info"
+                    style="@style/ShowDetail.ItemHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_margin"
-                    style="@style/ShowDetail.ItemHeading"
+                    android:layout_marginTop="@dimen/vertical_half_margin"
                     tools:text="@string/show_seasons_info" />
 
             </LinearLayout>
@@ -89,16 +90,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/horizontal_margin">
+            android:paddingEnd="@dimen/horizontal_margin"
+            android:paddingStart="@dimen/horizontal_margin">
 
             <TextView
                 android:id="@+id/show_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="@string/show_info"/>
-
+                tools:text="@string/show_info" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/show_cast_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/vertical_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:text="@string/show_cast" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/show_cast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_margin" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

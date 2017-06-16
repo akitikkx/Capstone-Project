@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 
@@ -54,6 +55,9 @@ public class TmdbApi {
 
         @GET("tv/{tv_id}")
         Call<ShowInfoResponse> getDetails(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
+
+        @GET("tv/{tv_id}/credits")
+        Call<ShowCreditsResponse> getCredits(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
     }
 
 }

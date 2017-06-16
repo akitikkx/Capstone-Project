@@ -8,10 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,7 +33,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import za.co.ahmedtikiwa.apps.tvcentral.BuildConfig;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
+import za.co.ahmedtikiwa.apps.tvcentral.adapters.ShowCastAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.api.TmdbApi;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCast;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
@@ -41,6 +48,9 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
 
     private Uri mUri;
     public static final int DETAIL_LOADER = 0;
+    private LinearLayoutManager linearLayoutManager;
+    private ArrayList<ShowCast> castArrayList;
+    private ShowCastAdapter showCastAdapter;
     @BindView(R.id.show_backdrop)
     ImageView showBackdrop;
     @BindView(R.id.backdrop_progress)
@@ -59,6 +69,10 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     TextView showNetwork;
     @BindView(R.id.show_seasons_info)
     TextView showSeasonsInfo;
+    @BindView(R.id.show_cast)
+    RecyclerView showCast;
+    @BindView(R.id.show_cast_layout)
+    LinearLayout showCastLayout;
 
     public ShowDetailFragment() {
     }
@@ -74,6 +88,14 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
 
         Bundle bundle = getArguments();
         mUri = bundle.getParcelable(BaseFragment.SHOW_DETAIL_URI);
+
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        castArrayList = new ArrayList<ShowCast>();
+        showCastAdapter = new ShowCastAdapter(getContext(), castArrayList);
+        showCast.setLayoutManager(linearLayoutManager);
+        showCast.setAdapter(showCastAdapter);
 
         return rootView;
     }
@@ -108,6 +130,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            backdropProgress.setVisibility(View.GONE);
                             return false;
                         }
 
@@ -124,6 +147,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            posterProgress.setVisibility(View.GONE);
                             return false;
                         }
 
@@ -137,7 +161,50 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         }
     }
 
+    /**
+     * Requests additional information to be loaded for the selected show
+     *
+     * @param data
+     */
     private void loadMoreInfo(Cursor data) {
+        loadAdditionalGeneralInfo(data);
+        loadCreditsInfo(data);
+    }
+
+    /**
+     * Loads the cast credits information for the show
+     *
+     * @param data
+     */
+    private void loadCreditsInfo(Cursor data) {
+        Call<ShowCreditsResponse> showCreditsResponseCall = TmdbApi.getTmdbApiClient().getCredits(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
+        showCreditsResponseCall.enqueue(new Callback<ShowCreditsResponse>() {
+            @Override
+            public void onResponse(Call<ShowCreditsResponse> call, Response<ShowCreditsResponse> response) {
+                if (response.isSuccessful()) {
+                    ShowCreditsResponse showCreditsResponse = response.body();
+                    if (showCreditsResponse.getCast().size() > 0) {
+                        updateCastData(showCreditsResponse.getCast());
+                    } else {
+                        showCastLayout.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShowCreditsResponse> call, Throwable t) {
+                showCastLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    /**
+     * Loads the general information about the show
+     * such as status, networks, season info
+     *
+     * @param data
+     */
+    private void loadAdditionalGeneralInfo(Cursor data) {
         Call<ShowInfoResponse> showInfoResponseCall = TmdbApi.getTmdbApiClient().getDetails(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
         showInfoResponseCall.enqueue(new Callback<ShowInfoResponse>() {
             @Override
@@ -170,5 +237,18 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    /**
+     * Updates the cast adapter with updated data
+     *
+     * @param arrayList
+     */
+    private void updateCastData(ArrayList arrayList) {
+        if (arrayList != null) {
+            castArrayList.clear();
+            castArrayList.addAll(arrayList);
+            showCastAdapter.notifyDataSetChanged();
+        }
     }
 }
