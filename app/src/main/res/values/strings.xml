@@ -28,4 +28,5 @@
     <string name="show_runtime">%1$s mins</string>
     <string name="show_network">Show Network</string>
     <string name="show_seasons_info">%1$d season(s), %2$d episode(s)</string>
+    <string name="show_poster">Show Poster</string>
 </resources>

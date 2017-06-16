@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment;
@@ -37,7 +41,7 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
         if (mCursor.getString(AiringTodayFragment.COLUMN_POSTER_PATH) != null) {
@@ -45,6 +49,19 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
 
             Glide.with(mContext)
                     .load(posterUrl)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            holder.posterProgress.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            holder.posterProgress.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .into(holder.poster);
         }
     }
@@ -64,11 +81,13 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final ImageView poster;
+        public final ProgressBar posterProgress;;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             poster = (ImageView) itemView.findViewById(R.id.poster);
+            posterProgress = (ProgressBar) itemView.findViewById(R.id.poster_progress);
 
             itemView.setOnClickListener(this);
         }
