@@ -8,16 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/appBackground</item>
         <item name="android:textColor">@color/appTextColor</item>
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ShowDetail.ItemHeading" parent="AppTheme">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+        <item name="android:textColor">@color/showDetailHeadingItem</item>
+    </style>
 
 </resources>

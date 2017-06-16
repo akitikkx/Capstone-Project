@@ -6,7 +6,9 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 
 public class TmdbApi {
@@ -49,6 +51,9 @@ public class TmdbApi {
 
         @GET("tv/top_rated/")
         Call<ShowsResponse> topRated(@Query("api_key") String apiKey);
+
+        @GET("tv/{tv_id}")
+        Call<ShowInfoResponse> getDetails(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
     }
 
 }

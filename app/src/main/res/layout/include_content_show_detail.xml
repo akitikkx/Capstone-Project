@@ -57,6 +57,29 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     tools:text="@string/show_title" />
 
+                <TextView
+                    android:id="@+id/show_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vertical_margin"
+                    style="@style/ShowDetail.ItemHeading"
+                    tools:text="@string/show_status" />
+
+                <TextView
+                    android:id="@+id/show_network"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vertical_margin"
+                    style="@style/ShowDetail.ItemHeading"
+                    tools:text="@string/show_network" />
+
+                <TextView
+                    android:id="@+id/show_seasons_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vertical_margin"
+                    style="@style/ShowDetail.ItemHeading"
+                    tools:text="@string/show_seasons_info" />
 
             </LinearLayout>
 
@@ -71,7 +94,8 @@
             <TextView
                 android:id="@+id/show_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                tools:text="@string/show_info"/>
 
         </LinearLayout>
 

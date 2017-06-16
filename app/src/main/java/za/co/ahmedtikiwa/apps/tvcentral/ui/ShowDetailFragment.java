@@ -20,9 +20,18 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import za.co.ahmedtikiwa.apps.tvcentral.BuildConfig;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
+import za.co.ahmedtikiwa.apps.tvcentral.api.TmdbApi;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 import static za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment.COLUMN_BACKDROP_PATH;
@@ -44,6 +53,12 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     TextView showName;
     @BindView(R.id.show_info)
     TextView showInfo;
+    @BindView(R.id.show_status)
+    TextView showStatus;
+    @BindView(R.id.show_network)
+    TextView showNetwork;
+    @BindView(R.id.show_seasons_info)
+    TextView showSeasonsInfo;
 
     public ShowDetailFragment() {
     }
@@ -84,6 +99,8 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             showName.setText(data.getString(BaseFragment.COLUMN_NAME_PATH));
             showInfo.setText(data.getString(BaseFragment.COLUMN_OVERVIEW_PATH));
 
+            loadMoreInfo(data);
+
             String backdropUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_BACKDROP_SIZE + data.getString(COLUMN_BACKDROP_PATH);
             String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_BACKDROP_SIZE + data.getString(COLUMN_POSTER_PATH);
             Glide.with(getContext())
@@ -118,6 +135,36 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
                     })
                     .into(showPoster);
         }
+    }
+
+    private void loadMoreInfo(Cursor data) {
+        Call<ShowInfoResponse> showInfoResponseCall = TmdbApi.getTmdbApiClient().getDetails(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
+        showInfoResponseCall.enqueue(new Callback<ShowInfoResponse>() {
+            @Override
+            public void onResponse(Call<ShowInfoResponse> call, Response<ShowInfoResponse> response) {
+                if (response.isSuccessful()) {
+                    ShowInfoResponse showInfoResponse = response.body();
+
+                    showStatus.setText(String.format(getString(R.string.show_status), showInfoResponse.getStatus(), String.format(getString(R.string.show_runtime), showInfoResponse.getEpisodeRunTime())));
+
+                    if (showInfoResponse.getNetworks().size() > 0) {
+                        List<ShowNetwork> showNetworks = showInfoResponse.getNetworks();
+                        String networks = "";
+                        for (ShowNetwork showNetwork : showNetworks) {
+                            networks += showNetwork.getName();
+                        }
+                        showNetwork.setText(networks);
+                    }
+
+                    showSeasonsInfo.setText(String.format(getString(R.string.show_seasons_info), showInfoResponse.getNumberOfSeasons(), showInfoResponse.getNumberOfEpisodes()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShowInfoResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
