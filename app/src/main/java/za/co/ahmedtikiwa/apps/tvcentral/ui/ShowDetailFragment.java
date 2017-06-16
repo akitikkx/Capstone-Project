@@ -51,8 +51,6 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
 
     private Uri mUri;
     public static final int DETAIL_LOADER = 0;
-    private LinearLayoutManager showCastLayoutManager;
-    private LinearLayoutManager similarShowsLayoutManager;
     private ArrayList<ShowCast> castArrayList;
     private ArrayList<Show> similarShowsArrayList;
     private ShowCastAdapter showCastAdapter;
@@ -99,18 +97,18 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         Bundle bundle = getArguments();
         mUri = bundle.getParcelable(BaseFragment.SHOW_DETAIL_URI);
 
-        showCastLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager showCastLayoutManager = new LinearLayoutManager(getContext());
         showCastLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        similarShowsLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager similarShowsLayoutManager = new LinearLayoutManager(getContext());
         similarShowsLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        castArrayList = new ArrayList<ShowCast>();
+        castArrayList = new ArrayList<>();
         showCastAdapter = new ShowCastAdapter(getContext(), castArrayList);
         showCast.setLayoutManager(showCastLayoutManager);
         showCast.setAdapter(showCastAdapter);
 
-        similarShowsArrayList = new ArrayList<Show>();
+        similarShowsArrayList = new ArrayList<>();
         similarShowsAdapter = new SimilarShowsAdapter(getContext(), similarShowsArrayList);
         similarShows.setLayoutManager(similarShowsLayoutManager);
         similarShows.setAdapter(similarShowsAdapter);
