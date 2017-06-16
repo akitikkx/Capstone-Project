@@ -18,10 +18,16 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
 
     private Cursor mCursor;
     private Context mContext;
+    private AiringTodayAdapaterOnClickHandler mOnClickHandler;
 
-    public AiringTodayAdapter(Context context, Cursor cursor) {
+    public AiringTodayAdapter(Context context, Cursor cursor, AiringTodayAdapaterOnClickHandler onClickHandler) {
         mCursor = cursor;
         mContext = context;
+        mOnClickHandler = onClickHandler;
+    }
+
+    public interface AiringTodayAdapaterOnClickHandler{
+        void onClick(long showId);
     }
 
     @Override
@@ -43,6 +49,8 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
         }
     }
 
+
+
     @Override
     public int getItemCount() {
         return null == mCursor ? 0 : mCursor.getCount();
@@ -53,14 +61,23 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final ImageView poster;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            poster = (ImageView)itemView.findViewById(R.id.poster);
+            poster = (ImageView) itemView.findViewById(R.id.poster);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mCursor.moveToPosition(position);
+            mOnClickHandler.onClick(mCursor.getLong(AiringTodayFragment.COLUMN_SHOW_ID));
         }
     }
 }

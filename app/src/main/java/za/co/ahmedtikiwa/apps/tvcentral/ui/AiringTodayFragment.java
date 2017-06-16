@@ -3,7 +3,6 @@ package za.co.ahmedtikiwa.apps.tvcentral.ui;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -25,7 +24,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.data.TvCentralContract;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.PrefHelper;
 
-public class AiringTodayFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AiringTodayFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = AiringTodayFragment.class.getSimpleName();
     private AiringTodayAdapter adapter;
@@ -37,6 +36,7 @@ public class AiringTodayFragment extends Fragment implements LoaderManager.Loade
     TextView emptyState;
 
     public static final int COLUMN_POSTER_PATH = 1;
+    public static final int COLUMN_SHOW_ID = 3;
 
     public AiringTodayFragment() {
     }
@@ -49,7 +49,12 @@ public class AiringTodayFragment extends Fragment implements LoaderManager.Loade
 
         ButterKnife.bind(this, rootView);
 
-        adapter = new AiringTodayAdapter(getActivity(), null);
+        adapter = new AiringTodayAdapter(getActivity(), null, new AiringTodayAdapter.AiringTodayAdapaterOnClickHandler() {
+            @Override
+            public void onClick(long showId) {
+                ((Callback)getActivity()).onItemSelected(TvCentralContract.TvAiringTodayEntry.buildShowUri(showId));
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);

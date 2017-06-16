@@ -1,5 +1,7 @@
 package za.co.ahmedtikiwa.apps.tvcentral.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +11,7 @@ import android.view.MenuItem;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements BaseFragment.Callback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +43,12 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(Uri showUri) {
+        Intent showDetail = new Intent(DashboardActivity.this, ShowDetailActivity.class);
+        showDetail.setData(showUri);
+        startActivity(showDetail);
     }
 }
