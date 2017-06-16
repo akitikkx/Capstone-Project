@@ -49,7 +49,12 @@ public class UpcomingWeekShowsFragment extends Fragment implements LoaderManager
 
         ButterKnife.bind(this, rootView);
 
-        adapter = new UpcomingWeekShowsAdapter(getActivity(), null);
+        adapter = new UpcomingWeekShowsAdapter(getActivity(), null, new UpcomingWeekShowsAdapter.UpcomingShowsAdapterOnClickHandler() {
+            @Override
+            public void onClick(long showId) {
+                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvUpcomingWeekEntry.buildShowUri(showId));
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);

@@ -15,18 +15,23 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
-import za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment;
-import za.co.ahmedtikiwa.apps.tvcentral.ui.PopularShowsFragment;
+import za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapter.ViewHolder> {
 
     private Cursor mCursor;
     private Context mContext;
+    private PopularShowsAdapterOnClickHandler mOnClickHandler;
 
-    public PopularShowsAdapter(Context context, Cursor cursor) {
+    public PopularShowsAdapter(Context context, Cursor cursor, PopularShowsAdapterOnClickHandler onClickHandler) {
         mCursor = cursor;
         mContext = context;
+        mOnClickHandler = onClickHandler;
+    }
+
+    public interface PopularShowsAdapterOnClickHandler{
+        void onClick(long showId);
     }
 
     @Override
@@ -39,8 +44,8 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        if (mCursor.getString(AiringTodayFragment.COLUMN_POSTER_PATH) != null) {
-            String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(PopularShowsFragment.COLUMN_POSTER_PATH);
+        if (mCursor.getString(BaseFragment.COLUMN_POSTER_PATH) != null) {
+            String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(BaseFragment.COLUMN_POSTER_PATH);
 
             Glide.with(mContext)
                     .load(posterUrl)
@@ -71,7 +76,7 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final ImageView poster;
         public final ProgressBar posterProgress;
@@ -81,6 +86,15 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
 
             poster = (ImageView)itemView.findViewById(R.id.poster);
             posterProgress = (ProgressBar)itemView.findViewById(R.id.poster_progress);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mCursor.moveToPosition(position);
+            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID));
         }
     }
 }

@@ -49,7 +49,12 @@ public class TopRatedShowsFragment extends Fragment implements LoaderManager.Loa
 
         ButterKnife.bind(this, rootView);
 
-        adapter = new TopRatedShowsAdapter(getActivity(), null);
+        adapter = new TopRatedShowsAdapter(getActivity(), null, new TopRatedShowsAdapter.TopRatedShowsAdapterOnClickHandler() {
+            @Override
+            public void onClick(long showId) {
+                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvTopRatedEntry.buildShowUri(showId));
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);

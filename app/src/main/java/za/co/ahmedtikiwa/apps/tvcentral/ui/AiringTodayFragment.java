@@ -46,7 +46,7 @@ public class AiringTodayFragment extends BaseFragment implements LoaderManager.L
 
         ButterKnife.bind(this, rootView);
 
-        adapter = new AiringTodayAdapter(getActivity(), null, new AiringTodayAdapter.AiringTodayAdapaterOnClickHandler() {
+        adapter = new AiringTodayAdapter(getActivity(), null, new AiringTodayAdapter.AiringTodayAdapterOnClickHandler() {
             @Override
             public void onClick(long showId) {
                 ((Callback)getActivity()).onItemSelected(TvCentralContract.TvAiringTodayEntry.buildShowUri(showId));

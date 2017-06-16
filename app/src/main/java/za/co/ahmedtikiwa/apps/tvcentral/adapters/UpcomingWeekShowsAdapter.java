@@ -16,6 +16,7 @@ import com.bumptech.glide.request.target.Target;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment;
+import za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.UpcomingWeekShowsFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
@@ -23,10 +24,16 @@ public class UpcomingWeekShowsAdapter extends RecyclerView.Adapter<UpcomingWeekS
 
     private Cursor mCursor;
     private Context mContext;
+    private UpcomingShowsAdapterOnClickHandler mOnClickHandler;
 
-    public UpcomingWeekShowsAdapter(Context context, Cursor cursor) {
+    public UpcomingWeekShowsAdapter(Context context, Cursor cursor, UpcomingShowsAdapterOnClickHandler onClickHandler) {
         mCursor = cursor;
         mContext = context;
+        mOnClickHandler = onClickHandler;
+    }
+
+    public interface UpcomingShowsAdapterOnClickHandler {
+        void onClick(long showId);
     }
 
     @Override
@@ -71,7 +78,7 @@ public class UpcomingWeekShowsAdapter extends RecyclerView.Adapter<UpcomingWeekS
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final ImageView poster;
         public final ProgressBar posterProgress;
@@ -79,8 +86,17 @@ public class UpcomingWeekShowsAdapter extends RecyclerView.Adapter<UpcomingWeekS
         public ViewHolder(View itemView) {
             super(itemView);
 
-            poster = (ImageView)itemView.findViewById(R.id.poster);
-            posterProgress = (ProgressBar)itemView.findViewById(R.id.poster_progress);
+            poster = (ImageView) itemView.findViewById(R.id.poster);
+            posterProgress = (ProgressBar) itemView.findViewById(R.id.poster_progress);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mCursor.moveToPosition(position);
+            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID));
         }
     }
 }

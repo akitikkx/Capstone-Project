@@ -16,21 +16,22 @@ import com.bumptech.glide.request.target.Target;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment;
+import za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.ViewHolder> {
 
     private Cursor mCursor;
     private Context mContext;
-    private AiringTodayAdapaterOnClickHandler mOnClickHandler;
+    private AiringTodayAdapterOnClickHandler mOnClickHandler;
 
-    public AiringTodayAdapter(Context context, Cursor cursor, AiringTodayAdapaterOnClickHandler onClickHandler) {
+    public AiringTodayAdapter(Context context, Cursor cursor, AiringTodayAdapterOnClickHandler onClickHandler) {
         mCursor = cursor;
         mContext = context;
         mOnClickHandler = onClickHandler;
     }
 
-    public interface AiringTodayAdapaterOnClickHandler{
+    public interface AiringTodayAdapterOnClickHandler {
         void onClick(long showId);
     }
 
@@ -96,7 +97,7 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
         public void onClick(View v) {
             int position = getAdapterPosition();
             mCursor.moveToPosition(position);
-            mOnClickHandler.onClick(mCursor.getLong(AiringTodayFragment.COLUMN_SHOW_ID));
+            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID));
         }
     }
 }

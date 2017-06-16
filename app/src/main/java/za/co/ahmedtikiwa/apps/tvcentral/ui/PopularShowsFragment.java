@@ -49,7 +49,12 @@ public class PopularShowsFragment extends Fragment implements LoaderManager.Load
 
         ButterKnife.bind(this, rootView);
 
-        adapter = new PopularShowsAdapter(getActivity(), null);
+        adapter = new PopularShowsAdapter(getActivity(), null, new PopularShowsAdapter.PopularShowsAdapterOnClickHandler() {
+            @Override
+            public void onClick(long showId) {
+                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvPopularEntry.buildShowUri(showId));
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
