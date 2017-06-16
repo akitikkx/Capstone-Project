@@ -106,11 +106,13 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         castArrayList = new ArrayList<>();
         showCastAdapter = new ShowCastAdapter(getContext(), castArrayList);
         showCast.setLayoutManager(showCastLayoutManager);
+        showCast.setNestedScrollingEnabled(false);
         showCast.setAdapter(showCastAdapter);
 
         similarShowsArrayList = new ArrayList<>();
         similarShowsAdapter = new SimilarShowsAdapter(getContext(), similarShowsArrayList);
         similarShows.setLayoutManager(similarShowsLayoutManager);
+        similarShows.setNestedScrollingEnabled(false);
         similarShows.setAdapter(similarShowsAdapter);
 
         return rootView;

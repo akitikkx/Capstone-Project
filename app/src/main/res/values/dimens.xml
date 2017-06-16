@@ -12,5 +12,5 @@
     <!-- Show Detail -->
     <dimen name="detail_poster_width">130dp</dimen>
     <dimen name="detail_poster_height">250dp</dimen>
-    <dimen name="show_backdrop_height">300dp</dimen>
+    <dimen name="show_backdrop_height">200dp</dimen>
 </resources>
