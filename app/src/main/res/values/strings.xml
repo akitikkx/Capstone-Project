@@ -30,4 +30,5 @@
     <string name="show_seasons_info">%1$d season(s), %2$d episode(s)</string>
     <string name="show_poster">Show Poster</string>
     <string name="show_cast">Cast Credits</string>
+    <string name="similar_shows">Similar Shows</string>
 </resources>

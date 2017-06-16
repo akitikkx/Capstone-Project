@@ -34,11 +34,14 @@ import retrofit2.Response;
 import za.co.ahmedtikiwa.apps.tvcentral.BuildConfig;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.ShowCastAdapter;
+import za.co.ahmedtikiwa.apps.tvcentral.adapters.SimilarShowsAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.api.TmdbApi;
+import za.co.ahmedtikiwa.apps.tvcentral.models.Show;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCast;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 import static za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment.COLUMN_BACKDROP_PATH;
@@ -48,9 +51,12 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
 
     private Uri mUri;
     public static final int DETAIL_LOADER = 0;
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager showCastLayoutManager;
+    private LinearLayoutManager similarShowsLayoutManager;
     private ArrayList<ShowCast> castArrayList;
+    private ArrayList<Show> similarShowsArrayList;
     private ShowCastAdapter showCastAdapter;
+    private SimilarShowsAdapter similarShowsAdapter;
     @BindView(R.id.show_backdrop)
     ImageView showBackdrop;
     @BindView(R.id.backdrop_progress)
@@ -73,6 +79,10 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     RecyclerView showCast;
     @BindView(R.id.show_cast_layout)
     LinearLayout showCastLayout;
+    @BindView(R.id.similar_shows)
+    RecyclerView similarShows;
+    @BindView(R.id.similar_shows_layout)
+    LinearLayout similarShowsLayout;
 
     public ShowDetailFragment() {
     }
@@ -89,13 +99,21 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         Bundle bundle = getArguments();
         mUri = bundle.getParcelable(BaseFragment.SHOW_DETAIL_URI);
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        showCastLayoutManager = new LinearLayoutManager(getContext());
+        showCastLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        similarShowsLayoutManager = new LinearLayoutManager(getContext());
+        similarShowsLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         castArrayList = new ArrayList<ShowCast>();
         showCastAdapter = new ShowCastAdapter(getContext(), castArrayList);
-        showCast.setLayoutManager(linearLayoutManager);
+        showCast.setLayoutManager(showCastLayoutManager);
         showCast.setAdapter(showCastAdapter);
+
+        similarShowsArrayList = new ArrayList<Show>();
+        similarShowsAdapter = new SimilarShowsAdapter(getContext(), similarShowsArrayList);
+        similarShows.setLayoutManager(similarShowsLayoutManager);
+        similarShows.setAdapter(similarShowsAdapter);
 
         return rootView;
     }
@@ -168,7 +186,8 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
      */
     private void loadMoreInfo(Cursor data) {
         loadAdditionalGeneralInfo(data);
-        loadCreditsInfo(data);
+        loadCastCreditsInfo(data);
+        loadSimilarShows(data);
     }
 
     /**
@@ -176,7 +195,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
      *
      * @param data
      */
-    private void loadCreditsInfo(Cursor data) {
+    private void loadCastCreditsInfo(Cursor data) {
         Call<ShowCreditsResponse> showCreditsResponseCall = TmdbApi.getTmdbApiClient().getCredits(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
         showCreditsResponseCall.enqueue(new Callback<ShowCreditsResponse>() {
             @Override
@@ -234,6 +253,28 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         });
     }
 
+    private void loadSimilarShows(Cursor data){
+        Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().getSimilar(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
+        showsResponseCall.enqueue(new Callback<ShowsResponse>() {
+            @Override
+            public void onResponse(Call<ShowsResponse> call, Response<ShowsResponse> response) {
+                if (response.isSuccessful()) {
+                    ShowsResponse showsResponse = response.body();
+                    if (showsResponse.getResults().size() > 0) {
+                        updateSimilarShowsData(showsResponse.getResults());
+                    } else {
+                        similarShowsLayout.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShowsResponse> call, Throwable t) {
+                similarShowsLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
@@ -249,6 +290,19 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             castArrayList.clear();
             castArrayList.addAll(arrayList);
             showCastAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Updates the similar shows adapter with updated data
+     *
+     * @param arrayList
+     */
+    private void updateSimilarShowsData(ArrayList arrayList) {
+        if (arrayList != null) {
+            similarShowsArrayList.clear();
+            similarShowsArrayList.addAll(arrayList);
+            similarShowsAdapter.notifyDataSetChanged();
         }
     }
 }

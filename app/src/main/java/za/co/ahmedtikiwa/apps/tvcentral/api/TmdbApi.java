@@ -58,6 +58,9 @@ public class TmdbApi {
 
         @GET("tv/{tv_id}/credits")
         Call<ShowCreditsResponse> getCredits(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
+
+        @GET("tv/{tv_id}/similar")
+        Call<ShowsResponse> getSimilar(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
     }
 
 }
