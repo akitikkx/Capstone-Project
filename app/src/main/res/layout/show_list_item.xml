@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/shows_list_poster_height"
         android:layout_marginEnd="@dimen/poster_horizontal_margin"
+        android:contentDescription="@string/show_poster"
         android:scaleType="centerCrop" />
 
 </FrameLayout>
