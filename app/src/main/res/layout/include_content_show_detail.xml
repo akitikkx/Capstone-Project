@@ -5,6 +5,8 @@
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingBottom="@dimen/vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -54,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vertical_half_margin"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    style="@style/ShowDetail.Title"
                     tools:text="@string/show_title" />
 
                 <TextView
@@ -94,6 +96,7 @@
 
             <TextView
                 android:id="@+id/show_info"
+                style="@style/ShowDetail.ItemHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="@string/show_info" />

@@ -26,4 +26,12 @@
         <item name="android:textColor">@color/showDetailHeadingItem</item>
     </style>
 
+    <style name="ShowDetail.Body" parent="AppTheme">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="ShowDetail.Title" parent="AppTheme">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
 </resources>
