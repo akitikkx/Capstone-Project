@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 
-public class DashboardActivity extends AppCompatActivity implements BaseFragment.Callback{
+public class DashboardActivity extends AppCompatActivity implements BaseFragment.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

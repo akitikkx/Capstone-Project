@@ -32,4 +32,5 @@
     <string name="show_cast">Cast Credits</string>
     <string name="similar_shows">Similar Shows</string>
     <string name="show_cast_image">Show Credit Image</string>
+    <string name="no_network_connection">No network connection has been detected.</string>
 </resources>

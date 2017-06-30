@@ -42,12 +42,13 @@ import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
+import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 import static za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment.COLUMN_BACKDROP_PATH;
 import static za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment.COLUMN_POSTER_PATH;
 
-public class ShowDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ShowDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, NetworkConnectivityReceiver.NetworkConnectivityListener {
 
     private Uri mUri;
     public static final int DETAIL_LOADER = 0;
@@ -182,7 +183,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     /**
      * Requests additional information to be loaded for the selected show
      *
-     * @param data
+     * @param data Cursor data
      */
     private void loadMoreInfo(Cursor data) {
         loadAdditionalGeneralInfo(data);
@@ -193,7 +194,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     /**
      * Loads the cast credits information for the show
      *
-     * @param data
+     * @param data Cursor data
      */
     private void loadCastCreditsInfo(Cursor data) {
         Call<ShowCreditsResponse> showCreditsResponseCall = TmdbApi.getTmdbApiClient().getCredits(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
@@ -221,7 +222,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
      * Loads the general information about the show
      * such as status, networks, season info
      *
-     * @param data
+     * @param data Cursor data
      */
     private void loadAdditionalGeneralInfo(Cursor data) {
         Call<ShowInfoResponse> showInfoResponseCall = TmdbApi.getTmdbApiClient().getDetails(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
@@ -283,7 +284,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     /**
      * Updates the cast adapter with updated data
      *
-     * @param arrayList
+     * @param arrayList ArrayList containing cast information
      */
     private void updateCastData(ArrayList arrayList) {
         if (arrayList != null) {
@@ -296,7 +297,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     /**
      * Updates the similar shows adapter with updated data
      *
-     * @param arrayList
+     * @param arrayList ArrayList containing similar shows data
      */
     private void updateSimilarShowsData(ArrayList arrayList) {
         if (arrayList != null) {
@@ -304,5 +305,10 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             similarShowsArrayList.addAll(arrayList);
             similarShowsAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onConnectionChanged(boolean hasNetworkConnection) {
+        getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
     }
 }
