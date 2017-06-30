@@ -1,22 +1,40 @@
 package za.co.ahmedtikiwa.apps.tvcentral.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import za.co.ahmedtikiwa.apps.tvcentral.App;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
+import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 
-public class DashboardActivity extends AppCompatActivity implements BaseFragment.Callback {
+public class DashboardActivity extends AppCompatActivity implements BaseFragment.Callback, NetworkConnectivityReceiver.NetworkConnectivityListener {
+
+    @BindView(R.id.main_content)
+    CoordinatorLayout mainContent;
+
+    private NetworkConnectivityReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        ButterKnife.bind(this);
+
+        mReceiver = new NetworkConnectivityReceiver();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,5 +68,31 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         Intent showDetail = new Intent(DashboardActivity.this, ShowDetailActivity.class);
         showDetail.setData(showUri);
         startActivity(showDetail);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        App.instance.initConnectivityListener(this);
+    }
+
+    @Override
+    public void onConnectionChanged(boolean hasNetworkConnection) {
+        if (!hasNetworkConnection) {
+            Snackbar.make(mainContent, getString(R.string.no_network_connection), Snackbar.LENGTH_LONG).show();
+        }
     }
 }
