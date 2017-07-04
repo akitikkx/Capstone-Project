@@ -38,7 +38,7 @@
 
         <provider
             android:name=".data.TvCentralProvider"
-            android:authorities="za.co.ahmedtikiwa.apps.tvcentral"
+            android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true" />
 

@@ -1,5 +1,7 @@
 package za.co.ahmedtikiwa.apps.tvcentral.ui;
 
+import android.accounts.Account;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -25,6 +27,7 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
     CoordinatorLayout mainContent;
 
     private NetworkConnectivityReceiver mReceiver;
+    private Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,8 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         setContentView(R.layout.activity_dashboard);
 
         ButterKnife.bind(this);
+
+        mAccount = TvCentralSyncAdapter.getSyncAccount(this);
 
         mReceiver = new NetworkConnectivityReceiver();
 
@@ -44,7 +49,7 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
+        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
         return true;
     }
 
@@ -56,8 +61,8 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_request_sync) {
+            refreshDashboard();
         }
 
         return super.onOptionsItemSelected(item);
@@ -94,5 +99,17 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         if (!hasNetworkConnection) {
             Snackbar.make(mainContent, getString(R.string.no_network_connection), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Requests a manual syncAdapter sync
+     */
+    private void refreshDashboard()
+    {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
+        ContentResolver.requestSync(mAccount, getString(R.string.content_authority), bundle);
     }
 }

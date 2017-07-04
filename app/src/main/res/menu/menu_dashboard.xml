@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="za.co.ahmedtikiwa.apps.tvcentral.ui.DashboardActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_request_sync"
+        android:icon="@android:drawable/ic_popup_sync"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>
