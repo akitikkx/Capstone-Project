@@ -41,6 +41,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCast;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowVideoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
@@ -254,7 +255,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         });
     }
 
-    private void loadSimilarShows(Cursor data){
+    private void loadSimilarShows(Cursor data) {
         Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().getSimilar(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
             @Override
@@ -272,6 +273,21 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
                 similarShowsLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void loadVideos(Cursor data) {
+        Call<ShowVideoResponse> showVideoResponseCall = TmdbApi.getTmdbApiClient().getVideos(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
+        showVideoResponseCall.enqueue(new Callback<ShowVideoResponse>() {
+            @Override
+            public void onResponse(Call<ShowVideoResponse> call, Response<ShowVideoResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ShowVideoResponse> call, Throwable t) {
+
             }
         });
     }

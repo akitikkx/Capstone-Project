@@ -4,7 +4,7 @@ package za.co.ahmedtikiwa.apps.tvcentral.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowVideoResult {
+public class ShowVideoResponse {
 
     private Integer id;
     private ArrayList<ShowVideo> results = null;

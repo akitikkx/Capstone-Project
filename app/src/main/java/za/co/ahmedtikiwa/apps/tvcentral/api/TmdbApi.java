@@ -10,6 +10,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowVideoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 
 public class TmdbApi {
@@ -63,7 +64,7 @@ public class TmdbApi {
         Call<ShowsResponse> getSimilar(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
 
         @GET("tv/{tv_id}/videos")
-        Call<ShowsResponse> getVideos(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
+        Call<ShowVideoResponse> getVideos(@Path("tv_id") long tvId, @Query("api_key") String apiKey);
     }
 
 }
