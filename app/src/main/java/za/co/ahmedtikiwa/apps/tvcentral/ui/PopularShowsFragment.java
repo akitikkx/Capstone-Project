@@ -3,7 +3,6 @@ package za.co.ahmedtikiwa.apps.tvcentral.ui;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -25,7 +24,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.data.TvCentralContract;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.PrefHelper;
 
-public class PopularShowsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PopularShowsFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = PopularShowsFragment.class.getSimpleName();
     private PopularShowsAdapter adapter;

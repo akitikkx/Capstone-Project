@@ -48,7 +48,7 @@ public class TopRatedShowsAdapter extends RecyclerView.Adapter<TopRatedShowsAdap
         if (mCursor.getString(AiringTodayFragment.COLUMN_POSTER_PATH) != null) {
             String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(AiringTodayFragment.COLUMN_POSTER_PATH);
 
-            holder.poster.setContentDescription(mCursor.getString(AiringTodayFragment.COLUMN_NAME_PATH));
+            holder.poster.setContentDescription(mCursor.getString(BaseFragment.COLUMN_NAME_PATH));
 
             Glide.with(mContext)
                     .load(posterUrl)

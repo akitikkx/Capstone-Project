@@ -161,6 +161,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
                         }
                     })
                     .into(showBackdrop);
+            showBackdrop.setContentDescription(getString(BaseFragment.COLUMN_NAME_PATH));
 
             Glide.with(getContext())
                     .load(posterUrl)

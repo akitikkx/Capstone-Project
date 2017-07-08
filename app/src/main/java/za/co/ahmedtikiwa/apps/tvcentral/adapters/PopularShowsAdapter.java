@@ -15,7 +15,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
-import za.co.ahmedtikiwa.apps.tvcentral.ui.AiringTodayFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
@@ -48,7 +47,7 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
         if (mCursor.getString(BaseFragment.COLUMN_POSTER_PATH) != null) {
             String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(BaseFragment.COLUMN_POSTER_PATH);
 
-            holder.poster.setContentDescription(mCursor.getString(AiringTodayFragment.COLUMN_NAME_PATH));
+            holder.poster.setContentDescription(mCursor.getString(BaseFragment.COLUMN_NAME_PATH));
 
             Glide.with(mContext)
                     .load(posterUrl)
