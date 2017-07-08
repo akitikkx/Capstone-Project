@@ -47,7 +47,7 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
         if (mCursor.getString(BaseFragment.COLUMN_POSTER_PATH) != null) {
             String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + mCursor.getString(BaseFragment.COLUMN_POSTER_PATH);
 
-            holder.poster.setContentDescription(mCursor.getString(BaseFragment.COLUMN_NAME_PATH));
+            holder.poster.setContentDescription(mContext.getString(R.string.show_poster, mCursor.getString(BaseFragment.COLUMN_NAME_PATH)));
 
             Glide.with(mContext)
                     .load(posterUrl)
@@ -78,12 +78,12 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public final ImageView poster;
-        public final ProgressBar posterProgress;
+        final ImageView poster;
+        final ProgressBar posterProgress;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             poster = (ImageView)itemView.findViewById(R.id.poster);

@@ -21,16 +21,16 @@
 
     <!-- Show Detail -->
     <string name="title_activity_show_detail">ShowDetail</string>
-    <string name="show_backdrop_image">Show Backdrop Image</string>
+    <string name="show_backdrop_image">%1$s backdrop image</string>
     <string name="show_title">Show Title</string>
     <string name="show_info">Flavum, placidus castors solite imitari de velox, fidelis calcaria.</string>
     <string name="show_status">%1$s, %2$s</string>
     <string name="show_runtime">%1$s mins</string>
     <string name="show_network">Show Network</string>
     <string name="show_seasons_info">%1$d season(s), %2$d episode(s)</string>
-    <string name="show_poster">Show Poster</string>
+    <string name="show_poster">%1$s poster</string>
     <string name="show_cast">Cast Credits</string>
     <string name="similar_shows">Similar Shows</string>
-    <string name="show_cast_image">Show Credit Image</string>
+    <string name="show_cast_image">%1$s cast credit image</string>
     <string name="no_network_connection">No network connection has been detected.</string>
 </resources>

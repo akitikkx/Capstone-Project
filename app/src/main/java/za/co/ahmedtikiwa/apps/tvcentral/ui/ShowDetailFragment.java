@@ -161,7 +161,9 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
                         }
                     })
                     .into(showBackdrop);
-            showBackdrop.setContentDescription(getString(BaseFragment.COLUMN_NAME_PATH));
+
+            // set the content description for the show backdrop
+            showBackdrop.setContentDescription(String.format(getString(R.string.show_backdrop_image), data.getString(BaseFragment.COLUMN_NAME_PATH)));
 
             Glide.with(getContext())
                     .load(posterUrl)
@@ -179,6 +181,9 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
                         }
                     })
                     .into(showPoster);
+
+            // set the content description for the show poster
+            showPoster.setContentDescription(String.format(getString(R.string.show_poster), data.getString(BaseFragment.COLUMN_NAME_PATH)));
         }
     }
 
@@ -203,7 +208,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         showCreditsResponseCall.enqueue(new Callback<ShowCreditsResponse>() {
             @Override
             public void onResponse(Call<ShowCreditsResponse> call, Response<ShowCreditsResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && isAdded()) {
                     ShowCreditsResponse showCreditsResponse = response.body();
                     if (showCreditsResponse.getCast().size() > 0) {
                         updateCastData(showCreditsResponse.getCast());
@@ -231,7 +236,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         showInfoResponseCall.enqueue(new Callback<ShowInfoResponse>() {
             @Override
             public void onResponse(Call<ShowInfoResponse> call, Response<ShowInfoResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && isAdded()) {
                     ShowInfoResponse showInfoResponse = response.body();
 
                     showStatus.setText(String.format(getString(R.string.show_status), showInfoResponse.getStatus(), String.format(getString(R.string.show_runtime), showInfoResponse.getEpisodeRunTime())));
@@ -261,7 +266,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
             @Override
             public void onResponse(Call<ShowsResponse> call, Response<ShowsResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && isAdded()) {
                     ShowsResponse showsResponse = response.body();
                     if (showsResponse.getResults().size() > 0) {
                         updateSimilarShowsData(showsResponse.getResults());

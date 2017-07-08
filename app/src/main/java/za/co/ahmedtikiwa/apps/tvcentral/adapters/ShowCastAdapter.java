@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -33,9 +34,8 @@ public class ShowCastAdapter extends RecyclerView.Adapter<ShowCastAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cast_list_item, parent, false);
-        final ViewHolder viewHolder = new ViewHolder(v);
 
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -60,6 +60,16 @@ public class ShowCastAdapter extends RecyclerView.Adapter<ShowCastAdapter.ViewHo
                     }
                 })
                 .into(holder.castImage);
+
+        // set the content description for the cast image
+        holder.castImage.setContentDescription(String.format(mContext.getString(R.string.show_poster), cast.getName()));
+
+        holder.castImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, cast.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -67,12 +77,12 @@ public class ShowCastAdapter extends RecyclerView.Adapter<ShowCastAdapter.ViewHo
         return mData.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView castImage;
-        public ProgressBar posterProgress;
+        ImageView castImage;
+        ProgressBar posterProgress;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             castImage = (ImageView) itemView.findViewById(R.id.show_cast_image);

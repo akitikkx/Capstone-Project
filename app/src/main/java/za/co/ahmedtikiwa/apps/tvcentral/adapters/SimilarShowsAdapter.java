@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -60,6 +61,17 @@ public class SimilarShowsAdapter extends RecyclerView.Adapter<SimilarShowsAdapte
                     }
                 })
                 .into(holder.poster);
+
+        // set the content description for the show poster
+        holder.poster.setContentDescription(String.format(mContext.getString(R.string.show_poster), show.getName()));
+
+        // displaying the name of the similar show for now
+        holder.poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, show.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -67,12 +79,12 @@ public class SimilarShowsAdapter extends RecyclerView.Adapter<SimilarShowsAdapte
         return mData.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView poster;
-        public ProgressBar posterProgress;
+        ImageView poster;
+        ProgressBar posterProgress;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             poster = (ImageView) itemView.findViewById(R.id.poster);
