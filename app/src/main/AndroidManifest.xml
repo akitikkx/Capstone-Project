@@ -28,7 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.ShowDetailActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -74,6 +73,20 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5a026c73b79107622bb20b86b6a7be8a33c8854c" />
+
+        <receiver android:name=".widget.AiringTodayWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/airing_today_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.AiringTodayCollectionService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>
