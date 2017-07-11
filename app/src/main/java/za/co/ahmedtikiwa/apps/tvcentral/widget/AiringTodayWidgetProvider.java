@@ -15,7 +15,8 @@ public class AiringTodayWidgetProvider extends AppWidgetProvider {
 
     public void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.airing_today_collection_widget);
-        setRemoteAdapter(context, views);
+
+        views.setRemoteAdapter(R.id.listViewWidget, new Intent(context, AiringTodayCollectionProvider.class));
         views.setEmptyView(R.id.listViewWidget, R.id.empty_view);
 
         Intent intent = new Intent(context, DashboardActivity.class);
@@ -33,9 +34,5 @@ public class AiringTodayWidgetProvider extends AppWidgetProvider {
             updateWidget(context, appWidgetManager, appWidgetId);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-    }
-
-    private void setRemoteAdapter(Context context, @NonNull final RemoteViews remoteViews) {
-        remoteViews.setRemoteAdapter(R.id.listViewWidget, new Intent(context, AiringTodayCollectionProvider.class));
     }
 }

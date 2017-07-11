@@ -26,6 +26,7 @@ public class AiringTodayCollectionProvider implements RemoteViewsService.RemoteV
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "onCreate");
         loadCollectionData();
         if (data != null) {
             Log.d(TAG, "Data: " + data.getCount());
@@ -35,11 +36,13 @@ public class AiringTodayCollectionProvider implements RemoteViewsService.RemoteV
 
     @Override
     public void onDataSetChanged() {
+        Log.d(TAG, "onDataSetChanged");
         loadCollectionData();
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "onDestroy");
         if (data != null) {
             data.close();
         }
@@ -47,13 +50,18 @@ public class AiringTodayCollectionProvider implements RemoteViewsService.RemoteV
 
     @Override
     public int getCount() {
+        Log.d(TAG, "getCount");
         return data.getCount();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
+        Log.d(TAG, "getViewAt");
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.airing_today_collection_item_widget);
         data.moveToPosition(position);
+
+        String name = data.getString(data.getColumnIndex(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME));
+        Log.d(TAG, "Data: name " + name);
 
         remoteViews.setTextViewText(R.id.widget_show_name, data.getString(data.getColumnIndex(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME)));
 
@@ -62,25 +70,30 @@ public class AiringTodayCollectionProvider implements RemoteViewsService.RemoteV
 
     @Override
     public RemoteViews getLoadingView() {
+        Log.d(TAG, "getLoadingView");
         return null;
     }
 
     @Override
     public int getViewTypeCount() {
+        Log.d(TAG, "getViewTypeCount");
         return 1;
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        Log.d(TAG, "getItemId");
+        return position;
     }
 
     @Override
     public boolean hasStableIds() {
+        Log.d(TAG, "hasStableIds");
         return true;
     }
 
     private void loadCollectionData() {
+        Log.d(TAG, "loadCollectionData");
         if (data != null) {
             Log.d(TAG, "Data: " + data.getCount());
             data.close();
