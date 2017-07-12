@@ -51,7 +51,7 @@ public class AiringTodayCollectionService extends RemoteViewsService {
             @Override
             public RemoteViews getViewAt(int position) {
                 Log.d(TAG, "getViewAt");
-                RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.airing_today_collection_item_widget);
+                RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.widget_airing_today_collection_item);
                 data.moveToPosition(position);
 
                 String name = data.getString(data.getColumnIndex(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME));

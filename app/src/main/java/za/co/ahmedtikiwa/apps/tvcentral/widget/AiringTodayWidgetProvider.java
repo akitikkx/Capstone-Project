@@ -16,7 +16,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.ui.DashboardActivity;
 public class AiringTodayWidgetProvider extends AppWidgetProvider {
 
     public void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.airing_today_collection_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_airing_today_collection);
 
         Intent intent = new Intent(context, DashboardActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);

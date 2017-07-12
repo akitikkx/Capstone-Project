@@ -34,4 +34,8 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
 
+    <style name="WidgetShowDetail.Title" parent="AppTheme">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
 </resources>
