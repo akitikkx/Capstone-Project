@@ -18,23 +18,25 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/appwidget_text"
-            android:textColor="#ffffff"
-            android:text="@string/appwidget_text" />
+            android:text="@string/appwidget_text"
+            android:textColor="#ffffff" />
     </FrameLayout>
 
     <TextView
         android:id="@+id/empty_view"
+        style="@style/WidgetShowDetail.Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/empty_show_list_server_error"
         android:textColor="#ffffff"
-        style="@style/WidgetShowDetail.Title"
         android:visibility="gone" />
 
     <ListView
         android:id="@+id/listViewWidget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="@dimen/widget_divider_height" />
 
 </LinearLayout>

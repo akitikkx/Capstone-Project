@@ -2,13 +2,20 @@ package za.co.ahmedtikiwa.apps.tvcentral.widget;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Binder;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
+
+import java.util.concurrent.ExecutionException;
+
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.data.TvCentralContract;
+import za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment;
+import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 public class AiringTodayCollectionService extends RemoteViewsService {
 
@@ -20,7 +27,6 @@ public class AiringTodayCollectionService extends RemoteViewsService {
         return new RemoteViewsFactory() {
             @Override
             public void onCreate() {
-                Log.d(TAG, "onCreate");
                 if (data != null) {
                     data.close();
                 }
@@ -34,28 +40,49 @@ public class AiringTodayCollectionService extends RemoteViewsService {
 
             @Override
             public void onDataSetChanged() {
-                Log.d(TAG, "onDataSetChanged");
+                if (data != null) {
+                    data.close();
+                }
+                final long identityToken = Binder.clearCallingIdentity();
+                data = getContentResolver().query(TvCentralContract.TvAiringTodayEntry.CONTENT_URI, null, null, null, null);
+                Binder.restoreCallingIdentity(identityToken);
+                if (data != null) {
+                    data.moveToFirst();
+                }
             }
 
             @Override
             public void onDestroy() {
-                Log.d(TAG, "onDestroy");
+                if (data != null) {
+                    data.close();
+                }
             }
 
             @Override
             public int getCount() {
-                Log.d(TAG, "getCount");
                 return data.getCount();
             }
 
             @Override
             public RemoteViews getViewAt(int position) {
-                Log.d(TAG, "getViewAt");
                 RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.widget_airing_today_collection_item);
                 data.moveToPosition(position);
 
                 String name = data.getString(data.getColumnIndex(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME));
+                String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + data.getString(BaseFragment.COLUMN_POSTER_PATH);
 
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(getApplicationContext())
+                            .load(posterUrl)
+                            .asBitmap()
+                            .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                remoteViews.setImageViewBitmap(R.id.widget_show_poster, bitmap);
                 remoteViews.setTextViewText(R.id.widget_show_name, name);
 
                 return remoteViews;
@@ -63,25 +90,21 @@ public class AiringTodayCollectionService extends RemoteViewsService {
 
             @Override
             public RemoteViews getLoadingView() {
-                Log.d(TAG, "getLoadingView");
                 return null;
             }
 
             @Override
             public int getViewTypeCount() {
-                Log.d(TAG, "getViewTypeCount");
                 return 1;
             }
 
             @Override
             public long getItemId(int position) {
-                Log.d(TAG, "getItemId");
                 return position;
             }
 
             @Override
             public boolean hasStableIds() {
-                Log.d(TAG, "hasStableIds");
                 return true;
             }
         };
