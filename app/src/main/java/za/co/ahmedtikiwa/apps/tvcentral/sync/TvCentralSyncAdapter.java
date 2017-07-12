@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -90,6 +91,11 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         loadTvTopRatedData();
     }
 
+    public static void updateWidgets(Context context) {
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+        context.sendBroadcast(dataUpdatedIntent);
+    }
+
     private void loadTvAiringTodayData() {
         Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().airingToday(BuildConfig.TMDB_API_KEY);
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
@@ -129,6 +135,8 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                         getContext().getContentResolver().bulkInsert(TvCentralContract.TvAiringTodayEntry.CONTENT_URI, contentValues);
 
                         setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
+
+                        updateWidgets(getContext());
 
                     }
 
