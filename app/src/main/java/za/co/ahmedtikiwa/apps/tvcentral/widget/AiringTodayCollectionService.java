@@ -3,6 +3,7 @@ package za.co.ahmedtikiwa.apps.tvcentral.widget;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Binder;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -70,6 +71,7 @@ public class AiringTodayCollectionService extends RemoteViewsService {
 
                 String name = data.getString(data.getColumnIndex(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME));
                 String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_RECOMMENDED_SIZE + data.getString(BaseFragment.COLUMN_POSTER_PATH);
+                long showId = data.getLong(BaseFragment.COLUMN_SHOW_ID);
 
                 Bitmap bitmap = null;
                 try {
@@ -84,6 +86,12 @@ public class AiringTodayCollectionService extends RemoteViewsService {
 
                 remoteViews.setImageViewBitmap(R.id.widget_show_poster, bitmap);
                 remoteViews.setTextViewText(R.id.widget_show_name, name);
+
+                // define the intent for clicking a show item
+                final Intent fillInIntent = new Intent();
+                Uri collectionItem = TvCentralContract.TvAiringTodayEntry.buildShowUri(showId);
+                fillInIntent.setData(collectionItem);
+                remoteViews.setOnClickFillInIntent(R.id.widget_show_collection_item, fillInIntent);
 
                 return remoteViews;
             }

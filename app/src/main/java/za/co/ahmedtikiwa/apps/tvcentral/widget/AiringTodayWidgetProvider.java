@@ -7,11 +7,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.ui.DashboardActivity;
+import za.co.ahmedtikiwa.apps.tvcentral.ui.ShowDetailActivity;
 
 public class AiringTodayWidgetProvider extends AppWidgetProvider {
 
@@ -24,6 +26,13 @@ public class AiringTodayWidgetProvider extends AppWidgetProvider {
 
         setRemoteAdapter(context, views);
 
+        // handle the intent from clicking a show item
+        Intent collectionItem = new Intent(context, ShowDetailActivity.class);
+        PendingIntent collectionItemPendingIntent = TaskStackBuilder.create(context)
+                .addNextIntentWithParentStack(collectionItem)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        views.setPendingIntentTemplate(R.id.listViewWidget, collectionItemPendingIntent);
         views.setEmptyView(R.id.listViewWidget, R.id.empty_view);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

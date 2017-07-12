@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_show_collection_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
@@ -10,8 +11,8 @@
         android:id="@+id/widget_show_poster"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/show_poster"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:contentDescription="@string/show_poster" />
 
     <TextView
         android:id="@+id/widget_show_name"
