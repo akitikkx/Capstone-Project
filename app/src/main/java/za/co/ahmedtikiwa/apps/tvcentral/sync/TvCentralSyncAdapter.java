@@ -14,7 +14,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
-import android.util.Log;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -32,7 +31,6 @@ import za.co.ahmedtikiwa.apps.tvcentral.models.Show;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 
 public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
-    public static final String TAG = TvCentralSyncAdapter.class.getSimpleName();
     public static final String ACTION_DATA_UPDATED = "za.co.ahmedtikiwa.apps.tvcentral.ACTION_DATA_UPDATED";
     public static final int SYNC_INTERVAL = 60 * 180; // 3 hours
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
@@ -140,11 +138,8 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
                     }
 
-                    Log.d(TAG, "Shows airing today sync service complete. " + cVVector.size() + " inserted.");
-
                 } else {
                     setSyncStatus(getContext(), TvCentralSyncAdapter.AIRING_TODAY_SYNC_STATUS_INVALID);
-                    Log.d(TAG, "Error encountered with background airing today sync: " + response.message());
                 }
 
             }
@@ -152,7 +147,6 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
                 setSyncStatus(getContext(), TvCentralSyncAdapter.AIRING_TODAY_SYNC_STATUS_SERVER_DOWN);
-                Log.d(TAG, "Error encountered with background airing today sync: " + t.getMessage());
 
             }
         });
@@ -199,20 +193,14 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                         setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
                     }
 
-                    Log.d(TAG, "Popular shows sync service complete. " + cVVector.size() + " inserted.");
-
                 } else {
                     setSyncStatus(getContext(), TvCentralSyncAdapter.POPULAR_SYNC_STATUS_INVALID);
-                    Log.d(TAG, "Error encountered with background popular show sync: " + response.message());
                 }
-
             }
 
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
                 setSyncStatus(getContext(), TvCentralSyncAdapter.POPULAR_SYNC_STATUS_SERVER_DOWN);
-                Log.d(TAG, "Error encountered with background popular show sync: " + t.getMessage());
-
             }
         });
     }
@@ -257,19 +245,13 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
                         setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
                     }
-
-                    Log.d(TAG, "Upcoming week shows sync service complete. " + cVVector.size() + " inserted.");
-
                 } else {
-                    Log.d(TAG, "Error encountered with background upcoming week show sync: " + response.message());
                     setSyncStatus(getContext(), TvCentralSyncAdapter.UPCOMING_WEEK_SYNC_STATUS_INVALID);
                 }
-
             }
 
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
-                Log.d(TAG, "Error encountered with background upcoming week show sync: " + t.getMessage());
                 setSyncStatus(getContext(), TvCentralSyncAdapter.UPCOMING_WEEK_SYNC_STATUS_SERVER_DOWN);
             }
         });
@@ -315,21 +297,14 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
                         setSyncStatus(getContext(), TvCentralSyncAdapter.SYNC_STATUS_OK);
                     }
-
-                    Log.d(TAG, "Top rated shows sync service complete. " + cVVector.size() + " inserted.");
-
                 } else {
                     setSyncStatus(getContext(), TvCentralSyncAdapter.TOP_RATED_SYNC_STATUS_INVALID);
-                    Log.d(TAG, "Error encountered with background top rated show sync: " + response.message());
                 }
-
             }
 
             @Override
             public void onFailure(Call<ShowsResponse> call, Throwable t) {
                 setSyncStatus(getContext(), TvCentralSyncAdapter.TOP_RATED_SYNC_STATUS_SERVER_DOWN);
-                Log.d(TAG, "Error encountered with background top rated show sync: " + t.getMessage());
-
             }
         });
     }
@@ -383,5 +358,4 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         editor.putInt(context.getString(R.string.pref_sync_status_key), syncStatus);
         editor.commit();
     }
-
 }
