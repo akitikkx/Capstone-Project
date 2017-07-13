@@ -89,7 +89,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         loadTvTopRatedData();
     }
 
-    public static void updateWidgets(Context context) {
+    private static void updateWidgets(Context context) {
         Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
         context.sendBroadcast(dataUpdatedIntent);
     }
@@ -103,7 +103,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     ShowsResponse showsResponse = response.body();
                     ArrayList<Show> shows = showsResponse.getResults();
 
-                    Vector<ContentValues> cVVector = new Vector<ContentValues>(shows.size());
+                    Vector<ContentValues> cVVector = new Vector<>(shows.size());
 
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
@@ -161,7 +161,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     ShowsResponse showsResponse = response.body();
                     ArrayList<Show> shows = showsResponse.getResults();
 
-                    Vector<ContentValues> cVVector = new Vector<ContentValues>(shows.size());
+                    Vector<ContentValues> cVVector = new Vector<>(shows.size());
 
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
@@ -214,7 +214,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     ShowsResponse showsResponse = response.body();
                     ArrayList<Show> shows = showsResponse.getResults();
 
-                    Vector<ContentValues> cVVector = new Vector<ContentValues>(shows.size());
+                    Vector<ContentValues> cVVector = new Vector<>(shows.size());
 
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
@@ -266,7 +266,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     ShowsResponse showsResponse = response.body();
                     ArrayList<Show> shows = showsResponse.getResults();
 
-                    Vector<ContentValues> cVVector = new Vector<ContentValues>(shows.size());
+                    Vector<ContentValues> cVVector = new Vector<>(shows.size());
 
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
@@ -344,7 +344,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         TvCentralSyncAdapter.beginSync(context);
     }
 
-    public static void beginSync(Context context) {
+    private static void beginSync(Context context) {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
