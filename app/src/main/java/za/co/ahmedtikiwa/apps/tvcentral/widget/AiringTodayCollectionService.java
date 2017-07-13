@@ -20,7 +20,6 @@ import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
 public class AiringTodayCollectionService extends RemoteViewsService {
 
-    private static final String TAG = AiringTodayCollectionService.class.getSimpleName();
     private Cursor data;
 
     @Override
