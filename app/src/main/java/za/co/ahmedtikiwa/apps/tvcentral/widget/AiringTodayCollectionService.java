@@ -82,6 +82,7 @@ public class AiringTodayCollectionService extends RemoteViewsService {
 
                 remoteViews.setImageViewBitmap(R.id.widget_show_poster, bitmap);
                 remoteViews.setTextViewText(R.id.widget_show_name, name);
+                remoteViews.setContentDescription(R.id.widget_show_poster, String.format(getString(R.string.show_poster), name));
 
                 // define the intent for clicking a show item
                 final Intent fillInIntent = new Intent();
