@@ -1,8 +1,10 @@
 package za.co.ahmedtikiwa.apps.tvcentral.ui;
 
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -15,7 +17,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.App;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
 
-public class ShowDetailActivity extends AppCompatActivity implements NetworkConnectivityReceiver.NetworkConnectivityListener {
+public class ShowDetailActivity extends AppCompatActivity implements NetworkConnectivityReceiver.NetworkConnectivityListener, BaseFragment.ShowVideoItemClickCallback {
 
     @BindView(R.id.main_content)
     CoordinatorLayout mainContent;
@@ -77,5 +79,12 @@ public class ShowDetailActivity extends AppCompatActivity implements NetworkConn
         if (!hasNetworkConnection) {
             Snackbar.make(mainContent, getString(R.string.no_network_connection), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onVideoItemSelected(String videoKey) {
+        Intent playTrailer = new Intent(Intent.ACTION_VIEW);
+        playTrailer.setData(Uri.parse("http://www.youtube.com/watch?v=" + videoKey));
+        startActivity(playTrailer);
     }
 }

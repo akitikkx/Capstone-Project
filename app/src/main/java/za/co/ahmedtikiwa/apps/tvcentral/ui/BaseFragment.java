@@ -14,7 +14,11 @@ public class BaseFragment extends Fragment {
     public static final int COLUMN_OVERVIEW_PATH = 6;
     public static final int COLUMN_NAME_PATH = 10;
 
-    public interface Callback {
+    public interface ShowItemClickCallback {
         public void onItemSelected(Uri showUri, View view);
+    }
+
+    public interface ShowVideoItemClickCallback {
+        public void onVideoItemSelected(String videoKey);
     }
 }

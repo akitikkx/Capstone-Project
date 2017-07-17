@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -49,10 +48,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
 import za.co.ahmedtikiwa.apps.tvcentral.utils.Constants;
 
-import static za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment.COLUMN_BACKDROP_PATH;
-import static za.co.ahmedtikiwa.apps.tvcentral.ui.BaseFragment.COLUMN_POSTER_PATH;
-
-public class ShowDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, NetworkConnectivityReceiver.NetworkConnectivityListener {
+public class ShowDetailFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, NetworkConnectivityReceiver.NetworkConnectivityListener {
 
     private Uri mUri;
     public static final int DETAIL_LOADER = 0;
@@ -130,7 +126,12 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         similarShows.setAdapter(similarShowsAdapter);
 
         showVideoArrayList = new ArrayList<>();
-        showVideosAdapter = new ShowVideosAdapter(getContext(), showVideoArrayList);
+        showVideosAdapter = new ShowVideosAdapter(getContext(), showVideoArrayList, new ShowVideosAdapter.ShowVideoAdapterClickHandler() {
+            @Override
+            public void onVideoItemClick(String videoKey) {
+                ((ShowVideoItemClickCallback)getActivity()).onVideoItemSelected(videoKey);
+            }
+        });
         showVideos.setLayoutManager(showVideosLayoutManager);
         showVideos.setNestedScrollingEnabled(false);
         showVideos.setAdapter(showVideosAdapter);

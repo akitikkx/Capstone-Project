@@ -1,7 +1,6 @@
 package za.co.ahmedtikiwa.apps.tvcentral.ui;
 
 import android.accounts.Account;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -24,7 +23,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
 import za.co.ahmedtikiwa.apps.tvcentral.sync.TvCentralSyncAdapter;
 
-public class DashboardActivity extends AppCompatActivity implements BaseFragment.Callback, NetworkConnectivityReceiver.NetworkConnectivityListener {
+public class DashboardActivity extends AppCompatActivity implements BaseFragment.ShowItemClickCallback, NetworkConnectivityReceiver.NetworkConnectivityListener {
 
     @BindView(R.id.main_content)
     CoordinatorLayout mainContent;

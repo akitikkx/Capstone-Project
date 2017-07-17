@@ -23,11 +23,12 @@ public class ShowVideosAdapter extends RecyclerView.Adapter<ShowVideosAdapter.Vi
 
     private ArrayList<ShowVideo> mData;
     private Context mContext;
-    private ShowVideoAdapterClickHandler clickHandler;
+    private ShowVideoAdapterClickHandler mClickHandler;
 
-    public ShowVideosAdapter(Context context, ArrayList<ShowVideo> showVideoArrayList) {
+    public ShowVideosAdapter(Context context, ArrayList<ShowVideo> showVideoArrayList, ShowVideoAdapterClickHandler handler) {
         mData = showVideoArrayList;
         mContext = context;
+        mClickHandler = handler;
     }
 
     public interface ShowVideoAdapterClickHandler {
@@ -74,7 +75,7 @@ public class ShowVideosAdapter extends RecyclerView.Adapter<ShowVideosAdapter.Vi
         return mData.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView videoItem;
         ProgressBar videoProgress;
@@ -84,6 +85,7 @@ public class ShowVideosAdapter extends RecyclerView.Adapter<ShowVideosAdapter.Vi
 
             videoItem = (ImageView) itemView.findViewById(R.id.video_item);
             videoProgress = (ProgressBar) itemView.findViewById(R.id.show_video_progress);
+            itemView.setOnClickListener(this);
 
         }
 
@@ -91,7 +93,7 @@ public class ShowVideosAdapter extends RecyclerView.Adapter<ShowVideosAdapter.Vi
         public void onClick(View v) {
             int position = getAdapterPosition();
             final ShowVideo showVideo = mData.get(position);
-            clickHandler.onVideoItemClick(showVideo.getKey());
+            mClickHandler.onVideoItemClick(showVideo.getKey());
         }
     }
 }
