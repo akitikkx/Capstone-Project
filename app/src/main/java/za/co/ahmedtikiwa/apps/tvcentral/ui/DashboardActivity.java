@@ -52,7 +52,6 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
         return true;
     }
 
@@ -62,11 +61,6 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_request_sync) {
-            refreshDashboard();
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -107,17 +101,5 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         if (!hasNetworkConnection) {
             Snackbar.make(mainContent, getString(R.string.no_network_connection), Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    /**
-     * Requests a manual syncAdapter sync
-     */
-    private void refreshDashboard()
-    {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-
-        ContentResolver.requestSync(mAccount, getString(R.string.content_authority), bundle);
     }
 }

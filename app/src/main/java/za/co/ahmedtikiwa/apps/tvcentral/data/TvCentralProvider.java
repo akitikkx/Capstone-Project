@@ -39,7 +39,7 @@ public class TvCentralProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mTvCentralDbHelper = new TvCentralDbHelper(getContext());
+        mTvCentralDbHelper = TvCentralDbHelper.getInstance(getContext());
         return true;
     }
 
@@ -305,7 +305,6 @@ public class TvCentralProvider extends ContentProvider {
                     database.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
-                database.close();
                 return returnCount;
             case TV_POPULAR:
                 database.beginTransaction();
@@ -321,7 +320,6 @@ public class TvCentralProvider extends ContentProvider {
                     database.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
-                database.close();
                 return returnCount;
             case TV_UPCOMING_WEEK:
                 database.beginTransaction();
@@ -337,7 +335,6 @@ public class TvCentralProvider extends ContentProvider {
                     database.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
-                database.close();
                 return returnCount;
             case TV_TOP_RATED:
                 database.beginTransaction();
@@ -353,11 +350,9 @@ public class TvCentralProvider extends ContentProvider {
                     database.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
-                database.close();
                 return returnCount;
             default:
                 return super.bulkInsert(uri, values);
         }
-
     }
 }

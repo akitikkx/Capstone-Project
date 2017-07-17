@@ -37,9 +37,6 @@ public class AiringTodayCollectionService extends RemoteViewsService {
 
             @Override
             public void onDataSetChanged() {
-                if (data != null) {
-                    data.close();
-                }
                 final long identityToken = Binder.clearCallingIdentity();
                 data = getContentResolver().query(TvCentralContract.TvAiringTodayEntry.CONTENT_URI, null, null, null, null);
                 Binder.restoreCallingIdentity(identityToken);

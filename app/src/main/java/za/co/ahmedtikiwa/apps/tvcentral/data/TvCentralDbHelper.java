@@ -6,8 +6,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class TvCentralDbHelper extends SQLiteOpenHelper {
 
+    private static TvCentralDbHelper sInstance;
     private static final int DATABASE_VERSION = 1;
     static final String DATABASE_NAME = "tv_central.db";
+
+    public static synchronized TvCentralDbHelper getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new TvCentralDbHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
 
     public TvCentralDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
