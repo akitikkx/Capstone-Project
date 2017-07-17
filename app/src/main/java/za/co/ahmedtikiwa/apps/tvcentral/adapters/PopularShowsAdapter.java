@@ -31,7 +31,7 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
     }
 
     public interface PopularShowsAdapterOnClickHandler{
-        void onClick(long showId);
+        void onClick(long showId, View view);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class PopularShowsAdapter extends RecyclerView.Adapter<PopularShowsAdapte
         public void onClick(View v) {
             int position = getAdapterPosition();
             mCursor.moveToPosition(position);
-            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID));
+            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID), v);
         }
     }
 }

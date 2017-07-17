@@ -50,8 +50,8 @@ public class PopularShowsFragment extends BaseFragment implements LoaderManager.
 
         adapter = new PopularShowsAdapter(getActivity(), null, new PopularShowsAdapter.PopularShowsAdapterOnClickHandler() {
             @Override
-            public void onClick(long showId) {
-                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvPopularEntry.buildShowUri(showId));
+            public void onClick(long showId, View view) {
+                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvPopularEntry.buildShowUri(showId), view);
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

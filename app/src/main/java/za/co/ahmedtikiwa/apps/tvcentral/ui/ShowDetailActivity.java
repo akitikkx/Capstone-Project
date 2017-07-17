@@ -41,6 +41,8 @@ public class ShowDetailActivity extends AppCompatActivity implements NetworkConn
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.show_detail_container, fragment)
                     .commit();
+
+            supportPostponeEnterTransition();
         }
 
 

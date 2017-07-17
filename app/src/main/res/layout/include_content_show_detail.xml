@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/horizontal_double_margin"
                     android:contentDescription="@string/show_poster"
-                    android:minHeight="@dimen/detail_poster_height" />
+                    android:minHeight="@dimen/detail_poster_height"
+                    android:transitionName="@string/transition_image_poster" />
 
             </FrameLayout>
 
@@ -53,10 +54,10 @@
 
                 <TextView
                     android:id="@+id/show_name"
+                    style="@style/ShowDetail.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vertical_half_margin"
-                    style="@style/ShowDetail.Title"
                     tools:text="@string/show_title" />
 
                 <TextView

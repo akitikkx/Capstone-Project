@@ -50,8 +50,8 @@ public class TopRatedShowsFragment extends BaseFragment implements LoaderManager
 
         adapter = new TopRatedShowsAdapter(getActivity(), null, new TopRatedShowsAdapter.TopRatedShowsAdapterOnClickHandler() {
             @Override
-            public void onClick(long showId) {
-                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvTopRatedEntry.buildShowUri(showId));
+            public void onClick(long showId, View view) {
+                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvTopRatedEntry.buildShowUri(showId), view);
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

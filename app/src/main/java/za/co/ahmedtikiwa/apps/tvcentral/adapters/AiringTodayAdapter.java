@@ -32,7 +32,7 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
     }
 
     public interface AiringTodayAdapterOnClickHandler {
-        void onClick(long showId);
+        void onClick(long showId, View view);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class AiringTodayAdapter extends RecyclerView.Adapter<AiringTodayAdapter.
         public void onClick(View v) {
             int position = getAdapterPosition();
             mCursor.moveToPosition(position);
-            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID));
+            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID), v);
         }
     }
 }

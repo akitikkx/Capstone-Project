@@ -50,8 +50,8 @@ public class UpcomingWeekShowsFragment extends BaseFragment implements LoaderMan
 
         adapter = new UpcomingWeekShowsAdapter(getActivity(), null, new UpcomingWeekShowsAdapter.UpcomingShowsAdapterOnClickHandler() {
             @Override
-            public void onClick(long showId) {
-                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvUpcomingWeekEntry.buildShowUri(showId));
+            public void onClick(long showId, View view) {
+                ((BaseFragment.Callback)getActivity()).onItemSelected(TvCentralContract.TvUpcomingWeekEntry.buildShowUri(showId), view);
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

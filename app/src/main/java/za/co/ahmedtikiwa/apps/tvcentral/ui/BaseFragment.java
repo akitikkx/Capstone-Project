@@ -2,6 +2,7 @@ package za.co.ahmedtikiwa.apps.tvcentral.ui;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 public class BaseFragment extends Fragment {
 
@@ -14,6 +15,6 @@ public class BaseFragment extends Fragment {
     public static final int COLUMN_NAME_PATH = 10;
 
     public interface Callback {
-        public void onItemSelected(Uri showUri);
+        public void onItemSelected(Uri showUri, View view);
     }
 }

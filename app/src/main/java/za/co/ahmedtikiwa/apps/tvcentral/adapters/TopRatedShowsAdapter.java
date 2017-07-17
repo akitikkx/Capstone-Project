@@ -32,7 +32,7 @@ public class TopRatedShowsAdapter extends RecyclerView.Adapter<TopRatedShowsAdap
     }
 
     public interface TopRatedShowsAdapterOnClickHandler {
-        void onClick(long showId);
+        void onClick(long showId, View view);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class TopRatedShowsAdapter extends RecyclerView.Adapter<TopRatedShowsAdap
         public void onClick(View v) {
             int position = getAdapterPosition();
             mCursor.moveToPosition(position);
-            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID));
+            mOnClickHandler.onClick(mCursor.getLong(BaseFragment.COLUMN_SHOW_ID), v);
         }
     }
 }

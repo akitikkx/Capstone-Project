@@ -9,10 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,10 +72,14 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
     }
 
     @Override
-    public void onItemSelected(Uri showUri) {
+    public void onItemSelected(Uri showUri, View view) {
         Intent showDetail = new Intent(DashboardActivity.this, ShowDetailActivity.class);
         showDetail.setData(showUri);
-        startActivity(showDetail);
+
+        ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                new Pair<View, String>(view, getString(R.string.transition_image_poster)));
+
+        startActivity(showDetail, activityOptions.toBundle());
     }
 
     @Override

@@ -48,8 +48,8 @@ public class AiringTodayFragment extends BaseFragment implements LoaderManager.L
 
         adapter = new AiringTodayAdapter(getActivity(), null, new AiringTodayAdapter.AiringTodayAdapterOnClickHandler() {
             @Override
-            public void onClick(long showId) {
-                ((Callback)getActivity()).onItemSelected(TvCentralContract.TvAiringTodayEntry.buildShowUri(showId));
+            public void onClick(long showId, View view) {
+                ((Callback)getActivity()).onItemSelected(TvCentralContract.TvAiringTodayEntry.buildShowUri(showId), view);
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
