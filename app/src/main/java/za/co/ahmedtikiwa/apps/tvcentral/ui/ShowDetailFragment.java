@@ -35,6 +35,7 @@ import retrofit2.Response;
 import za.co.ahmedtikiwa.apps.tvcentral.BuildConfig;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.ShowCastAdapter;
+import za.co.ahmedtikiwa.apps.tvcentral.adapters.ShowVideosAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.SimilarShowsAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.api.TmdbApi;
 import za.co.ahmedtikiwa.apps.tvcentral.models.Show;
@@ -42,6 +43,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCast;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
+import za.co.ahmedtikiwa.apps.tvcentral.models.ShowVideo;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowVideoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.receivers.NetworkConnectivityReceiver;
@@ -56,8 +58,10 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     public static final int DETAIL_LOADER = 0;
     private ArrayList<ShowCast> castArrayList;
     private ArrayList<Show> similarShowsArrayList;
+    private ArrayList<ShowVideo> showVideoArrayList;
     private ShowCastAdapter showCastAdapter;
     private SimilarShowsAdapter similarShowsAdapter;
+    private ShowVideosAdapter showVideosAdapter;
     @BindView(R.id.show_backdrop)
     ImageView showBackdrop;
     @BindView(R.id.backdrop_progress)
@@ -84,6 +88,10 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
     RecyclerView similarShows;
     @BindView(R.id.similar_shows_layout)
     LinearLayout similarShowsLayout;
+    @BindView(R.id.show_videos)
+    RecyclerView showVideos;
+    @BindView(R.id.show_videos_layout)
+    LinearLayout showVideosLayout;
 
     public ShowDetailFragment() {
     }
@@ -106,6 +114,9 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         LinearLayoutManager similarShowsLayoutManager = new LinearLayoutManager(getContext());
         similarShowsLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+        LinearLayoutManager showVideosLayoutManager = new LinearLayoutManager(getContext());
+        showVideosLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
         castArrayList = new ArrayList<>();
         showCastAdapter = new ShowCastAdapter(getContext(), castArrayList);
         showCast.setLayoutManager(showCastLayoutManager);
@@ -117,6 +128,12 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         similarShows.setLayoutManager(similarShowsLayoutManager);
         similarShows.setNestedScrollingEnabled(false);
         similarShows.setAdapter(similarShowsAdapter);
+
+        showVideoArrayList = new ArrayList<>();
+        showVideosAdapter = new ShowVideosAdapter(getContext(), showVideoArrayList);
+        showVideos.setLayoutManager(showVideosLayoutManager);
+        showVideos.setNestedScrollingEnabled(false);
+        showVideos.setAdapter(showVideosAdapter);
 
         return rootView;
     }
@@ -204,6 +221,7 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         loadAdditionalGeneralInfo(data);
         loadCastCreditsInfo(data);
         loadSimilarShows(data);
+        loadVideos(data);
     }
 
     /**
@@ -296,12 +314,19 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
         showVideoResponseCall.enqueue(new Callback<ShowVideoResponse>() {
             @Override
             public void onResponse(Call<ShowVideoResponse> call, Response<ShowVideoResponse> response) {
-
+                if (response.isSuccessful() && isAdded()) {
+                    ShowVideoResponse showVideoResponse = response.body();
+                    if (showVideoResponse.getResults().size() > 0) {
+                        updateShowVideosData(showVideoResponse.getResults());
+                    } else {
+                        showVideosLayout.setVisibility(View.GONE);
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<ShowVideoResponse> call, Throwable t) {
-
+                showVideosLayout.setVisibility(View.GONE);
             }
         });
     }
@@ -334,6 +359,19 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             similarShowsArrayList.clear();
             similarShowsArrayList.addAll(arrayList);
             similarShowsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Updates the show videos adapter with updated data
+     *
+     * @param arrayList ArrayList containing show videos data
+     */
+    private void updateShowVideosData(ArrayList arrayList) {
+        if (arrayList != null) {
+            showVideoArrayList.clear();
+            showVideoArrayList.addAll(arrayList);
+            showVideosAdapter.notifyDataSetChanged();
         }
     }
 

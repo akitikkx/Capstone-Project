@@ -98,4 +98,6 @@
 
     <include layout="@layout/include_content_similar_shows_list" />
 
+    <include layout="@layout/include_content_show_videos_list" />
+
 </LinearLayout>

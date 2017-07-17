@@ -31,8 +31,10 @@
     <string name="show_poster">%1$s poster</string>
     <string name="show_cast">Cast Credits</string>
     <string name="similar_shows">Similar Shows</string>
+    <string name="show_videos">Videos</string>
     <string name="show_cast_image">%1$s cast credit image</string>
     <string name="no_network_connection">No network connection has been detected.</string>
+    <string name="show_video">%1$s show video</string>
 
     <!-- Widget -->
     <string name="appwidget_text">TV Central - Airing Today</string>
