@@ -76,6 +76,7 @@ public class DashboardActivity extends AppCompatActivity implements BaseFragment
         Intent showDetail = new Intent(DashboardActivity.this, ShowDetailActivity.class);
         showDetail.setData(showUri);
 
+        // implement shared element transition
         ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
                 new Pair<View, String>(view, getString(R.string.transition_image_poster)));
 

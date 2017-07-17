@@ -142,29 +142,8 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             showName.setText(data.getString(BaseFragment.COLUMN_NAME_PATH));
             showInfo.setText(data.getString(BaseFragment.COLUMN_OVERVIEW_PATH));
 
-            loadMoreInfo(data);
-
             String backdropUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_BACKDROP_SIZE + data.getString(COLUMN_BACKDROP_PATH);
             String posterUrl = Constants.TMDB_IMAGE_BASE_URL + Constants.TMDB_IMAGE_BACKDROP_SIZE + data.getString(COLUMN_POSTER_PATH);
-            Glide.with(getContext())
-                    .load(backdropUrl)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            backdropProgress.setVisibility(View.GONE);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            backdropProgress.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-                    .into(showBackdrop);
-
-            // set the content description for the show backdrop
-            showBackdrop.setContentDescription(String.format(getString(R.string.show_backdrop_image), data.getString(BaseFragment.COLUMN_NAME_PATH)));
 
             Glide.with(getContext())
                     .load(posterUrl)
@@ -191,6 +170,28 @@ public class ShowDetailFragment extends Fragment implements LoaderManager.Loader
             if (activity instanceof ShowDetailActivity) {
                 activity.supportStartPostponedEnterTransition();
             }
+
+            loadMoreInfo(data);
+
+            Glide.with(getContext())
+                    .load(backdropUrl)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            backdropProgress.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            backdropProgress.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(showBackdrop);
+
+            // set the content description for the show backdrop
+            showBackdrop.setContentDescription(String.format(getString(R.string.show_backdrop_image), data.getString(BaseFragment.COLUMN_NAME_PATH)));
         }
     }
 
