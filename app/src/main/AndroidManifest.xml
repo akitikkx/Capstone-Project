@@ -77,6 +77,7 @@
         <receiver android:name=".widget.AiringTodayWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="za.co.ahmedtikiwa.apps.tvcentral.ACTION_DATA_UPDATED" />
             </intent-filter>
 
             <meta-data
