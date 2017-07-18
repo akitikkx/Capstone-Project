@@ -9,5 +9,6 @@ before exposure to Udacity’s Android Developer Nanodegree program. ​ TV Cent
 improve on ​ Upnext ​ ’s lacking elements such as UI (proper implementation of Material Design for
 both phones and tablets), data, and efficient background syncing.
 
-### Pre-requisites
-* google-services.json file to be stored in app/google-services.json
+### Screenshots
+![device promo](https://github.com/akitikkx/Capstone-Project/blob/develop/screenshots/tvcentral_device_promo_800x600.png "TV Central promo")
+![device promo](https://github.com/akitikkx/Capstone-Project/blob/develop/screenshots/tvcentral_tablet_promo_800x600.png "TV Central promo")
