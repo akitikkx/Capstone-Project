@@ -12,29 +12,29 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <ProgressBar
                 android:id="@+id/poster_progress"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start" />
+                android:layout_gravity="center_vertical" />
 
             <ImageView
                 android:id="@+id/show_poster"
                 android:layout_width="@dimen/detail_poster_width"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:layout_marginStart="@dimen/horizontal_double_margin"
                 android:contentDescription="@string/show_poster"
-                android:minHeight="@dimen/detail_poster_height" />
+                android:minHeight="@dimen/detail_poster_height"
+                android:transitionName="@string/transition_image_poster" />
 
-        </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -88,7 +88,7 @@
 
         <TextView
             android:id="@+id/show_info"
-            style="@style/ShowDetail.ItemHeading"
+            style="@style/ShowDetail.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="@string/show_info" />

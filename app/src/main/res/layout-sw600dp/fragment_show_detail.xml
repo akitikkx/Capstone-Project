@@ -37,10 +37,12 @@
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_marginStart="@dimen/nestedscroll_frame_margin"
+        android:layout_marginEnd="@dimen/nestedscroll_frame_margin"
         android:paddingBottom="@dimen/vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
