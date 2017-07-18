@@ -83,10 +83,14 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        loadTvAiringTodayData();
-        loadTvPopularData();
-        loadTvUpcomingWeekData();
-        loadTvTopRatedData();
+        try {
+            loadTvAiringTodayData();
+            loadTvPopularData();
+            loadTvUpcomingWeekData();
+            loadTvTopRatedData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void updateWidgets(Context context) {
