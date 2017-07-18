@@ -301,6 +301,8 @@ public class TvCentralProvider extends ContentProvider {
                         }
                     }
                     database.setTransactionSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     database.endTransaction();
                 }
@@ -316,6 +318,9 @@ public class TvCentralProvider extends ContentProvider {
                         }
                     }
                     database.setTransactionSuccessful();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     database.endTransaction();
                 }
@@ -331,6 +336,8 @@ public class TvCentralProvider extends ContentProvider {
                         }
                     }
                     database.setTransactionSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     database.endTransaction();
                 }
@@ -346,6 +353,8 @@ public class TvCentralProvider extends ContentProvider {
                         }
                     }
                     database.setTransactionSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     database.endTransaction();
                 }

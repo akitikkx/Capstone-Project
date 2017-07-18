@@ -18,5 +18,4 @@
         android:layout_marginEnd="@dimen/poster_horizontal_margin"
         android:contentDescription="@string/show_video"
         android:scaleType="centerCrop" />
-
 </FrameLayout>

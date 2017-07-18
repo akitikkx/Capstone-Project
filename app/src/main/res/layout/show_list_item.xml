@@ -19,5 +19,4 @@
         android:contentDescription="@string/show_poster"
         android:scaleType="centerCrop"
         android:transitionName="@string/transition_image_poster" />
-
 </FrameLayout>
