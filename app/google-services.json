@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "410543860530",
+    "firebase_url": "https://tv-central-da19c.firebaseio.com",
+    "project_id": "tv-central-da19c",
+    "storage_bucket": "tv-central-da19c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410543860530:android:ce1567f5f6afb2ee",
+        "android_client_info": {
+          "package_name": "za.co.ahmedtikiwa.apps.tvcentral"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410543860530-bm8cvn64fkkip86593eok5shtlspon73.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.ahmedtikiwa.apps.tvcentral",
+            "certificate_hash": "d64d70f0f8675b4cbe9117b2a48d196cb5d750a9"
+          }
+        },
+        {
+          "client_id": "410543860530-uue05bg69pmh5sp7kq6uu42m320j18ip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK0NLh7c9nMY9J36eRKyuf255Y3dOunq0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "410543860530-uue05bg69pmh5sp7kq6uu42m320j18ip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

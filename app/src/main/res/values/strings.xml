@@ -1,4 +1,47 @@
 <resources>
     <string name="app_name">TV Central</string>
     <string name="action_settings">Settings</string>
+
+    <!-- SyncAdapter -->
+    <string name="sync_account_type">za.co.ahmedtikiwa</string>
+    <string name="content_authority">za.co.ahmedtikiwa.apps.tvcentral</string>
+
+    <!-- Dashboard -->
+    <string name="airing_today">Airing Today</string>
+    <string name="popular_shows">Popular Shows</string>
+    <string name="upcoming_week">Airing in the next 7 days</string>
+    <string name="top_rated_shows">Top Rated Shows</string>
+    <string name="pref_sync_status_key">sync-status</string>
+
+    <!-- SyncAdapter -->
+    <string name="empty_show_list">No show information currently available</string>
+    <string name="empty_show_list_no_network">No show information currently available. A network connection could not be established.</string>
+    <string name="empty_show_list_server_down">No show information currently available. The server could not be reached. Please try again later.</string>
+    <string name="empty_show_list_server_error">No show information currently available. The server is not returning valid data.</string>
+
+    <!-- Show Detail -->
+    <string name="title_activity_show_detail">ShowDetail</string>
+    <string name="show_backdrop_image">%1$s backdrop image</string>
+    <string name="show_title">Show Title</string>
+    <string name="show_info">Flavum, placidus castors solite imitari de velox, fidelis calcaria.</string>
+    <string name="show_status">%1$s, %2$s</string>
+    <string name="show_runtime">%1$s mins</string>
+    <string name="show_network">Show Network</string>
+    <string name="show_seasons_info">%1$d season(s), %2$d episode(s)</string>
+    <string name="show_poster">%1$s poster</string>
+    <string name="show_cast">Cast Credits</string>
+    <string name="similar_shows">Similar Shows</string>
+    <string name="show_videos">Videos</string>
+    <string name="show_cast_image">%1$s cast credit image</string>
+    <string name="no_network_connection">No network connection has been detected.</string>
+    <string name="show_video">%1$s show video</string>
+
+    <!-- Widget -->
+    <string name="appwidget_text">TV Central - Airing Today</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_updatePeriodMillis">0</string>
+    <string name="transition_image_poster">transition_image_poster</string>
+
+    <!-- FCM Notifications -->
+    <string name="notification_default_title">TvCentral Notification</string>
 </resources>

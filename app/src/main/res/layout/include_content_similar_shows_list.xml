@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/similar_shows_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/vertical_margin"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/ShowDetail.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/similar_shows" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/similar_shows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginTop="@dimen/vertical_margin" />
+</LinearLayout>
