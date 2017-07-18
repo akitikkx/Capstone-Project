@@ -41,4 +41,7 @@
     <string name="add_widget">Add widget</string>
     <string name="widget_updatePeriodMillis">0</string>
     <string name="transition_image_poster">transition_image_poster</string>
+
+    <!-- FCM Notifications -->
+    <string name="notification_default_title">TvCentral Notification</string>
 </resources>
