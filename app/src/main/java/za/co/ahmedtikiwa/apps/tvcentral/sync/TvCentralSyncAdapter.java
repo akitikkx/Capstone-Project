@@ -32,7 +32,7 @@ import za.co.ahmedtikiwa.apps.tvcentral.models.ShowsResponse;
 
 public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String ACTION_DATA_UPDATED = "za.co.ahmedtikiwa.apps.tvcentral.ACTION_DATA_UPDATED";
-    public static final int SYNC_INTERVAL = 60 * 180; // 3 hours
+    public static final int SYNC_INTERVAL = 60 * 120; // 1 hour
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
 
