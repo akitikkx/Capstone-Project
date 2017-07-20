@@ -33,13 +33,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import za.co.ahmedtikiwa.apps.tvcentral.BuildConfig;
 import za.co.ahmedtikiwa.apps.tvcentral.R;
-import za.co.ahmedtikiwa.apps.tvcentral.adapters.ShowCastAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.ShowVideosAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.adapters.SimilarShowsAdapter;
 import za.co.ahmedtikiwa.apps.tvcentral.api.TmdbApi;
 import za.co.ahmedtikiwa.apps.tvcentral.models.Show;
-import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCast;
-import za.co.ahmedtikiwa.apps.tvcentral.models.ShowCreditsResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowInfoResponse;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowNetwork;
 import za.co.ahmedtikiwa.apps.tvcentral.models.ShowVideo;
@@ -52,10 +49,8 @@ public class ShowDetailFragment extends BaseFragment implements LoaderManager.Lo
 
     private Uri mUri;
     public static final int DETAIL_LOADER = 0;
-    private ArrayList<ShowCast> castArrayList;
     private ArrayList<Show> similarShowsArrayList;
     private ArrayList<ShowVideo> showVideoArrayList;
-    private ShowCastAdapter showCastAdapter;
     private SimilarShowsAdapter similarShowsAdapter;
     private ShowVideosAdapter showVideosAdapter;
     @BindView(R.id.show_backdrop)
@@ -76,10 +71,6 @@ public class ShowDetailFragment extends BaseFragment implements LoaderManager.Lo
     TextView showNetwork;
     @BindView(R.id.show_seasons_info)
     TextView showSeasonsInfo;
-    @BindView(R.id.show_cast)
-    RecyclerView showCast;
-    @BindView(R.id.show_cast_layout)
-    LinearLayout showCastLayout;
     @BindView(R.id.similar_shows)
     RecyclerView similarShows;
     @BindView(R.id.similar_shows_layout)
@@ -112,12 +103,6 @@ public class ShowDetailFragment extends BaseFragment implements LoaderManager.Lo
 
         LinearLayoutManager showVideosLayoutManager = new LinearLayoutManager(getContext());
         showVideosLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-        castArrayList = new ArrayList<>();
-        showCastAdapter = new ShowCastAdapter(getContext(), castArrayList);
-        showCast.setLayoutManager(showCastLayoutManager);
-        showCast.setNestedScrollingEnabled(false);
-        showCast.setAdapter(showCastAdapter);
 
         similarShowsArrayList = new ArrayList<>();
         similarShowsAdapter = new SimilarShowsAdapter(getContext(), similarShowsArrayList);
@@ -220,36 +205,8 @@ public class ShowDetailFragment extends BaseFragment implements LoaderManager.Lo
      */
     private void loadMoreInfo(Cursor data) {
         loadAdditionalGeneralInfo(data);
-        loadCastCreditsInfo(data);
         loadSimilarShows(data);
         loadVideos(data);
-    }
-
-    /**
-     * Loads the cast credits information for the show
-     *
-     * @param data Cursor data
-     */
-    private void loadCastCreditsInfo(Cursor data) {
-        Call<ShowCreditsResponse> showCreditsResponseCall = TmdbApi.getTmdbApiClient().getCredits(data.getLong(BaseFragment.COLUMN_SHOW_ID), BuildConfig.TMDB_API_KEY);
-        showCreditsResponseCall.enqueue(new Callback<ShowCreditsResponse>() {
-            @Override
-            public void onResponse(Call<ShowCreditsResponse> call, Response<ShowCreditsResponse> response) {
-                if (response.isSuccessful() && isAdded()) {
-                    ShowCreditsResponse showCreditsResponse = response.body();
-                    if (showCreditsResponse.getCast().size() > 0) {
-                        updateCastData(showCreditsResponse.getCast());
-                    } else {
-                        showCastLayout.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ShowCreditsResponse> call, Throwable t) {
-                showCastLayout.setVisibility(View.GONE);
-            }
-        });
     }
 
     /**
@@ -335,19 +292,6 @@ public class ShowDetailFragment extends BaseFragment implements LoaderManager.Lo
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
-    }
-
-    /**
-     * Updates the cast adapter with updated data
-     *
-     * @param arrayList ArrayList containing cast information
-     */
-    private void updateCastData(ArrayList arrayList) {
-        if (arrayList != null) {
-            castArrayList.clear();
-            castArrayList.addAll(arrayList);
-            showCastAdapter.notifyDataSetChanged();
-        }
     }
 
     /**

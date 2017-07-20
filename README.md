@@ -18,3 +18,7 @@ this key in gradle.properties as part of the TmdbApiKey property.
 ### Screenshots
 ![device promo](https://github.com/akitikkx/Capstone-Project/blob/develop/screenshots/tvcentral_device_promo_800x600.png "TV Central promo")
 ![device promo](https://github.com/akitikkx/Capstone-Project/blob/develop/screenshots/tvcentral_tablet_promo_800x600.png "TV Central promo")
+
+### Notes
+- [20/07/2017] removed the 'Cast Credits' section of the show detail view in version 1.1 to adhere to Play Store 
+regulations in order to have the app published on the store.

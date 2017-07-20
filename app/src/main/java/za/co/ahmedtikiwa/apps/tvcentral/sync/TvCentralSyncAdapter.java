@@ -18,6 +18,8 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import retrofit2.Call;
@@ -84,10 +86,13 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         try {
-            loadTvAiringTodayData();
-            loadTvPopularData();
-            loadTvUpcomingWeekData();
-            loadTvTopRatedData();
+
+            List<String> exceptionList = Arrays.asList("Akil the Fugitive Hunter");
+
+            loadTvAiringTodayData(exceptionList);
+            loadTvPopularData(exceptionList);
+            loadTvUpcomingWeekData(exceptionList);
+            loadTvTopRatedData(exceptionList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,7 +103,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         context.sendBroadcast(dataUpdatedIntent);
     }
 
-    private void loadTvAiringTodayData() {
+    private void loadTvAiringTodayData(final List<String> exceptionList) {
         Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().airingToday(BuildConfig.TMDB_API_KEY);
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
             @Override
@@ -112,19 +117,24 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
 
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME, show.getName());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_POSTER_PATH, show.getPosterPath());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_SHOW_ID, show.getId());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_POPULARITY, show.getPopularity());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_OVERVIEW, show.getOverview());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
-                        showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+                        // do not save shows found to be problematic
+                        boolean isPartOfExceptionList = exceptionList.contains(show.getName());
 
-                        cVVector.add(showsValues);
+                        if (!isPartOfExceptionList) {
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_NAME, show.getName());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_POSTER_PATH, show.getPosterPath());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_SHOW_ID, show.getId());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_POPULARITY, show.getPopularity());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_OVERVIEW, show.getOverview());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
+                            showsValues.put(TvCentralContract.TvAiringTodayEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+
+                            cVVector.add(showsValues);
+                        }
                     }
 
                     if (cVVector.size() > 0) {
@@ -156,7 +166,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         });
     }
 
-    private void loadTvPopularData() {
+    private void loadTvPopularData(final List<String> exceptionList) {
         Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().popularShows(BuildConfig.TMDB_API_KEY);
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
             @Override
@@ -170,19 +180,24 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
 
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_NAME, show.getName());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_POSTER_PATH, show.getPosterPath());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_SHOW_ID, show.getId());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_POPULARITY, show.getPopularity());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_OVERVIEW, show.getOverview());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
-                        showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+                        // do not save shows found to be problematic
+                        boolean isPartOfExceptionList = exceptionList.contains(show.getName());
 
-                        cVVector.add(showsValues);
+                        if (!isPartOfExceptionList) {
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_NAME, show.getName());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_POSTER_PATH, show.getPosterPath());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_SHOW_ID, show.getId());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_POPULARITY, show.getPopularity());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_OVERVIEW, show.getOverview());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
+                            showsValues.put(TvCentralContract.TvPopularEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+
+                            cVVector.add(showsValues);
+                        }
                     }
 
                     if (cVVector.size() > 0) {
@@ -209,7 +224,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         });
     }
 
-    private void loadTvUpcomingWeekData() {
+    private void loadTvUpcomingWeekData(final List<String> exceptionList) {
         Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().upcomingWeek(BuildConfig.TMDB_API_KEY);
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
             @Override
@@ -223,19 +238,24 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
 
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_NAME, show.getName());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_POSTER_PATH, show.getPosterPath());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_SHOW_ID, show.getId());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_POPULARITY, show.getPopularity());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_OVERVIEW, show.getOverview());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
-                        showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+                        // do not save shows found to be problematic
+                        boolean isPartOfExceptionList = exceptionList.contains(show.getName());
 
-                        cVVector.add(showsValues);
+                        if (!isPartOfExceptionList) {
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_NAME, show.getName());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_POSTER_PATH, show.getPosterPath());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_SHOW_ID, show.getId());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_POPULARITY, show.getPopularity());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_OVERVIEW, show.getOverview());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
+                            showsValues.put(TvCentralContract.TvUpcomingWeekEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+
+                            cVVector.add(showsValues);
+                        }
                     }
 
                     if (cVVector.size() > 0) {
@@ -261,7 +281,7 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
         });
     }
 
-    private void loadTvTopRatedData() {
+    private void loadTvTopRatedData(final List<String> exceptionList) {
         Call<ShowsResponse> showsResponseCall = TmdbApi.getTmdbApiClient().topRated(BuildConfig.TMDB_API_KEY);
         showsResponseCall.enqueue(new Callback<ShowsResponse>() {
             @Override
@@ -275,19 +295,24 @@ public class TvCentralSyncAdapter extends AbstractThreadedSyncAdapter {
                     for (Show show : shows) {
                         ContentValues showsValues = new ContentValues();
 
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_NAME, show.getName());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_POSTER_PATH, show.getPosterPath());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_SHOW_ID, show.getId());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_POPULARITY, show.getPopularity());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_OVERVIEW, show.getOverview());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
-                        showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+                        // do not save shows found to be problematic
+                        boolean isPartOfExceptionList = exceptionList.contains(show.getName());
 
-                        cVVector.add(showsValues);
+                        if (!isPartOfExceptionList) {
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_NAME, show.getName());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_POSTER_PATH, show.getPosterPath());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_SHOW_ID, show.getId());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_POPULARITY, show.getPopularity());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_BACKDROP_PATH, show.getBackdropPath());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_VOTE_AVERAGE, show.getVoteAverage());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_OVERVIEW, show.getOverview());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_FIRST_AIR_DATE, show.getFirstAirDate());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_ORIGINAL_LANGUAGE, show.getOriginalLanguage());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_VOTE_COUNT, show.getVoteCount());
+                            showsValues.put(TvCentralContract.TvTopRatedEntry.COLUMN_ORIGINAL_NAME, show.getOriginalName());
+
+                            cVVector.add(showsValues);
+                        }
                     }
 
                     if (cVVector.size() > 0) {
