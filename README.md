@@ -22,3 +22,6 @@ this key in gradle.properties as part of the TmdbApiKey property.
 ### Notes
 - [20/07/2017] removed the 'Cast Credits' section of the show detail view in version 1.1 to adhere to Play Store 
 regulations in order to have the app published on the store.
+
+### Public Access
+- Google Play Store https://play.google.com/store/apps/details?id=za.co.ahmedtikiwa.apps.tvcentral
